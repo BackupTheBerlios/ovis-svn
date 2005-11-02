@@ -1,0 +1,14 @@
+filelist=['attributebuffer.cpp','attributetable.cpp','camera.cpp','caps.cpp','channeldatatype.cpp','cubemap.cpp','indexiterator.cpp','indexstream.cpp','light.cpp','lightlist.cpp','memindexstream.cpp','memvertexstream.cpp','occlusionquery.cpp','picbuffer.cpp','pixelformat.cpp','pixmap.cpp','program.cpp','propertynode.cpp','propertytable.cpp','renderer.cpp','scenenode.cpp','simplelightserver.cpp','simplepicbuffer.cpp','simplerenderer.cpp','testcube.cpp','testtorus.cpp','texture2d.cpp','texture.cpp','transformnode.cpp','vertexformat.cpp','vertexiterator.cpp','vertexstream.cpp','videodevice.cpp','visitorqueue.cpp']
+
+Import('env', 'profile')
+
+localenv=env.Copy(OBJPREFIX='video_'+profile+'/')
+
+if profile == 'release':
+        localenv.Append(LIBS=['ovisbase','ovismath'],LIBPATH=['..'],CXXFLAGS='-O2 -fomit-frame-pointer -pipe -Wall')
+        target='../ovisvideo'
+        result = localenv.SharedLibrary(target, source=filelist)
+elif profile == 'debug':
+        localenv.Append(LIBS=['ovisbase_d','ovismath_d'],LIBPATH=['..'],CXXFLAGS='-ggdb -Wall')
+        target='../ovisvideo_d'
+        result = localenv.SharedLibrary(target, source=filelist)

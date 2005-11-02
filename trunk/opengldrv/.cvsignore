@@ -1,0 +1,7 @@
+Debug
+Debug/*
+Release
+Release/*
+opengldrv_debug
+opengldrv_release
+opengldrv.scons

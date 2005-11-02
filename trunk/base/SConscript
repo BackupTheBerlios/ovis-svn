@@ -1,0 +1,17 @@
+filelist=['basememobj.cpp','datablock.cpp','defaultwindow_x11.cpp','dynobject_unix.cpp','fpscalc.cpp','localfile.cpp','localstreamable.cpp','log.cpp','managedmemobj.cpp','nullstream.cpp','numericarrays.cpp','pkdatablock.cpp','refcounted.cpp','stdoutstream.cpp','streamable.cpp','string.cpp','stringlist.cpp','timer.cpp']
+
+libs=['dl']
+
+Import('env', 'profile')
+
+localenv=env.Copy(OBJPREFIX='base_'+profile+'/',LIBS=libs,CPPPATH=['/usr/X11R6/include'],LIBPATH=['/usr/X11R6/lib'])
+
+if profile == 'release':
+        localenv.Append(CXXFLAGS='-O2 -fomit-frame-pointer -pipe -Wall')
+        target='../ovisbase'
+        result = localenv.SharedLibrary(target, source=filelist)
+elif profile == 'debug':
+        localenv.Append(CXXFLAGS='-ggdb -Wall')
+        target='../ovisbase_d'
+        result = localenv.SharedLibrary(target, source=filelist)
+

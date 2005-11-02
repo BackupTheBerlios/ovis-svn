@@ -1,0 +1,7 @@
+Debug
+Debug/*
+Release
+Release/*
+math_debug
+math_release
+math.scons

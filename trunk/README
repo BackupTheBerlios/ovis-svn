@@ -1,0 +1,25 @@
+OpenVisualizer v0.0000001
+
+Directory structure:
+
+base/		basic functionality used in all other components
+d3d9drv/	Direct3D 9 video driver
+main/		main application code
+math/		math codebase
+opengldrv/	OpenGL video driver
+video/		code for video graphics processing
+
+Needed libraries in linux:
+X11
+GL
+xxf86vm
+m
+dl
+
+You need one of these packages in debian/ubuntu:
+libxxf86vm-dev
+xlibs-static-dev
+
+Code in base/, math/, opengldrv/, d3d9drv/ and video/ originated from
+the Ion Engine codebase, which is LGPL-licensed. For more info, contact
+Carlos Rafael Giani (dv@dword.org).

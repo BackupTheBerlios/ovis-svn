@@ -1,0 +1,14 @@
+filelist=['aabbvolume.cpp','arcball.cpp','camera.cpp','frustum.cpp','interpolator.cpp','lerp.cpp','obbvolume.cpp','rectangle.cpp','spherevolume.cpp','vectors.cpp']
+
+Import('env', 'profile')
+
+localenv=env.Copy(OBJPREFIX='math_'+profile+'/')
+
+if profile == 'release':
+        localenv.Append(LIBS=['m','ovisbase'],LIBPATH=['..'],CXXFLAGS='-O2 -fomit-frame-pointer -pipe -Wall')
+        target='../ovismath'
+        result = localenv.SharedLibrary(target, source=filelist)
+elif profile == 'debug':
+        localenv.Append(LIBS=['m','ovisbase_d'],LIBPATH=['..'],CXXFLAGS='-ggdb -Wall')
+        target='../ovismath_d'
+        result = localenv.SharedLibrary(target, source=filelist)

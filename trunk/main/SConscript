@@ -1,0 +1,15 @@
+filelist=['main.cpp','mainwindow.cpp']
+
+Import('env', 'profile')
+
+localenv=env.Copy(OBJPREFIX='ovis_'+profile+'/',tools=['default','qt'])
+localenv['QT_LIB']='qt-mt'
+
+if profile == 'release':
+        localenv.Append(CXXFLAGS='-O2 -fomit-frame-pointer -pipe -Wall')
+        target='../ovis'
+        result = localenv.Program(target, source=filelist)
+elif profile == 'debug':
+        localenv.Append(CXXFLAGS='-ggdb -Wall')
+        target='../ovis_d'
+        result = localenv.Program(target, source=filelist)

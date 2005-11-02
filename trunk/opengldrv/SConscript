@@ -1,0 +1,14 @@
+filelist=['bufobject.cpp','ovisgl.cpp','ogl2dtexture.cpp','ogldevice.cpp','oglindexstream.cpp','oglvertexstream.cpp','ogl_x11.cpp','tooglconvs.cpp']
+
+Import('env', 'profile')
+
+localenv=env.Copy(OBJPREFIX='ovisopengldrv_'+profile+'/',LIBPATH=['..','/usr/X11R6/lib'],CPPPATH=['/usr/X11R6/include'])
+
+if profile == 'release':
+        localenv.Append(LIBS=['ovisbase','ovismath','ovisvideoL','X11','Xxf86vm'],CXXFLAGS='-O2 -fomit-frame-pointer -pipe -Wall')
+        target='../ovisopengldrv'
+        result = localenv.SharedLibrary(target, source=filelist)
+elif profile == 'debug':
+        localenv.Append(LIBS=['ovisbase_d','ovismath_d','ovisvideo_d','GL','X11','Xxf86vm'],CXXFLAGS='-ggdb -Wall')
+        target='../ovisopengldrv_d'
+        result = localenv.SharedLibrary(target, source=filelist)

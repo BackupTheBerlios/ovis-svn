@@ -1,0 +1,7 @@
+Debug
+Debug/*
+Release
+Release/*
+base_debug
+base_release
+base.scons

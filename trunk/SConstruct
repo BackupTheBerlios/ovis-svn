@@ -1,0 +1,20 @@
+profile = ARGUMENTS.get('profile', 'release')
+
+if not (profile in ['release','debug']):
+        print "Invalid profile"
+        Exit(1)
+
+print '**** Compiling in ' + profile + ' mode...'
+
+import os
+
+env = Environment()
+Export('env', 'profile')
+env.SConsignFile()
+env.AppendUnique(ENV={'PATH':os.environ['PATH'],'HOME':os.environ['HOME']})
+
+SConscript('base/SConscript')
+SConscript('math/SConscript')
+SConscript('video/SConscript')
+SConscript('opengldrv/SConscript')
+SConscript('main/SConscript')

@@ -1,0 +1,7 @@
+Debug
+Debug/*
+Release
+Release/*
+d3d9drv_debug
+d3d9drv_release
+d3d9drv.scons
