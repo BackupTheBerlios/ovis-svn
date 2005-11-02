@@ -20,6 +20,30 @@ You need one of these packages in debian/ubuntu:
 libxxf86vm-dev
 xlibs-static-dev
 
+There are two build profiles: release and debug.
+The project is built in the root directory using
+"scons profile=<profilename>". So, for building the project in debug
+mode, use "scons profile=debug". If no profile=<profilename> parameter
+is given (e.g. simply "scons" is entered) the project defaults to
+the release profile.
+
+Each subdirectory has its own SConscript. Compilation results are stored
+in <subdirname>_<profilename>. So, if the project is built in debug mode,
+then the compilation results of "base" are stored in base/base_debug.
+The same applies to all directories. svn ignore properties are set so
+that these directories are ignored. Please note that the linker results
+are stored in the root directory. The result of a debug build are
+several .so's and one "ovis_d" file in the root directory. svn ignore
+properties are set so that these are ignored too. In the "main" directory,
+moc_*.cc files are also ignored.
+
 Code in base/, math/, opengldrv/, d3d9drv/ and video/ originated from
 the Ion Engine codebase, which is LGPL-licensed. For more info, contact
 Carlos Rafael Giani (dv@dword.org).
+
+To check out via ssh, use:
+
+svn checkout svn+ssh://svn.berlios.de/svnroot/repos/ovis/trunk ovis
+
+Don't forget the "ovis" parameter at the end of the line, or else svn
+will checkout into a directory called "trunk" and not "ovis".
