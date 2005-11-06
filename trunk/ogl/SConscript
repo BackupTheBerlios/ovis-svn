@@ -1,4 +1,4 @@
-filelist=['bufobject.cpp','ovisgl.cpp','ogl2dtexture.cpp','ogldevice.cpp','oglindexstream.cpp','oglvertexstream.cpp','ogl_x11.cpp','tooglconvs.cpp']
+filelist=['bufobject.cpp','ovisgl.cpp','ogl2dtexture.cpp','ogldevice.cpp','oglindexstream.cpp','oglvertexstream.cpp','tooglconvs.cpp']
 
 Import('env', 'profile')
 

@@ -28,7 +28,7 @@ namespace opengldrv {
 		bool fetchVideomode(const ovis_uint32 adapter,const ovis_uint32 modeindex,
 			video::Videomode& mode,const video::Pixelformat pixelformat) const;
 
-		void init(base::Window* pWindow,const ovis_uint32 adapter,
+		void init(const ovis_uint32 width,const ovis_uint32 height,
 			const video::Pixelformat colorbufferformat,
 			const video::Pixelformat depthstencilformat,const ovis_uint32 Hz);
 
@@ -201,11 +201,11 @@ namespace opengldrv {
 
 
 
-		void initGL(base::Window* pWindow,const ovis_uint32 adapter,
+		/*void initGL(base::Window* pWindow,const ovis_uint32 adapter,
 			const video::Pixelformat colorbufferformat,
 			const video::Pixelformat depthstencilformat,const ovis_uint32 Hz);
 		void updateGL();
-		void shutdownGL();
+		void shutdownGL();*/
 
 		void enableCap(const GLenum cap,const bool state);
 

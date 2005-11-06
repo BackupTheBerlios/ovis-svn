@@ -1,6 +1,7 @@
 #ifndef OVIS_VIDEO_RENDERER_HH_INCLUDED
 #define OVIS_VIDEO_RENDERER_HH_INCLUDED
 
+#include "../base/basememobj.hh"
 #include "camera.hh"
 #include "scenenode.hh"
 
@@ -9,9 +10,8 @@ namespace video {
 
 	class Lightserver;
 	class Vertexformat;
-	class Videodevice;
 
-	class OVIS_API Renderer
+	class OVIS_API Renderer:public base::BaseMemObj
 	{
 	public:
 		virtual ~Renderer();
@@ -28,9 +28,6 @@ namespace video {
 		*/
 		virtual void renderScene(const Camera& camera,Scenenode& scenenode)=0;
 
-		/// Returns the video device the renderer uses
-		inline Videodevice& videodevice() const { return m_rVideodevice; }
-
 		/// Tests whether the video device supports features needed by this renderer or not
 		virtual bool supported() const=0;
 
@@ -40,19 +37,14 @@ namespace video {
 		/// Adjusts the vertexformat to be suitable for this renderer
 		virtual void adjustVertexformat(Vertexformat& format) const {}
 
-		/// This should be called when the video device changed its viewport
-		/**
-		* After the viewport resize, the device may have deallocated all resources that are in
-		* the default pool. Calling this method gives the renderer the chance to reset internal
-		* resources.
-		*/
-		virtual void checkResources()=0;
 	protected:
-		Renderer(Videodevice& rVideodevice);
+		Renderer();
 
-		Videodevice& m_rVideodevice;
 		Lightserver* m_pLightserver;
 	};
+
+	typedef Renderer* (*CreateRendererInstanceFunc)();
+	typedef const char* (*RendererDescriptionFunc)();
 
 }
 }

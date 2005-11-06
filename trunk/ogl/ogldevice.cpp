@@ -319,7 +319,6 @@ namespace opengldrv {
 
 	OGLDevice::~OGLDevice()
 	{
-		shutdownGL();
 		if (m_pSupportedExtensions) delete m_pSupportedExtensions;
 	}
 
@@ -351,16 +350,14 @@ namespace opengldrv {
 		return false;
 	}
 
-	void OGLDevice::init(base::Window* pWindow,const ovis_uint32 adapter,
+	void OGLDevice::init(const ovis_uint32 width,const ovis_uint32 height,
 		const video::Pixelformat colorbufferformat,
 		const video::Pixelformat depthstencilformat,const ovis_uint32 Hz)
 	{
-		initGL(pWindow,adapter,colorbufferformat,depthstencilformat,Hz);
-
 		parseExtensionString();
 		initializeExtensions();
 
-		glViewport(0,0,(GLint)(pWindow->width()),(GLint)(pWindow->height()));
+		glViewport(0,0,(GLint)width,(GLint)height);
 		glDepthFunc(GL_LEQUAL);
 
 		glEnable(GL_TEXTURE_2D);
@@ -385,9 +382,8 @@ namespace opengldrv {
 		m_Caps.m_MaxActiveFFLights=fixedMaxLights();
 		m_Caps.m_MaxTextureBlendStages=fixedMaxTextureStages();
 
-
-		m_Displaywidth=pWindow->width();
-		m_Displayheight=pWindow->height();
+		m_Displaywidth=width;
+		m_Displayheight=height;
 		m_ColorbufferFormat=colorbufferformat;
 		m_DepthstencilbufferFormat=depthstencilformat;
 
@@ -459,7 +455,7 @@ namespace opengldrv {
 
 	void OGLDevice::updateScreen()
 	{
-		updateGL();
+		glFinish();
 	}
 
 	bool OGLDevice::resizeViewport(const ovis_uint32 newx,const ovis_uint32 newy,
@@ -993,21 +989,3 @@ namespace opengldrv {
 }
 }
 
-extern "C"
-#ifdef WIN32
-__declspec( dllexport )
-#endif
-ovis::video::Videodevice* createVideodeviceInstance()
-{
-	return new ovis::opengldrv::OGLDevice;
-}
-
-
-extern "C"
-#ifdef WIN32
-__declspec( dllexport )
-#endif
-const char* videodeviceDescription()
-{
-	return "OpenGL videodevice v0.5 build 2005-08-28 19:48";
-}

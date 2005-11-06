@@ -3,10 +3,9 @@ OpenVisualizer v0.0000001
 Directory structure:
 
 base/		basic functionality used in all other components
-d3d9drv/	Direct3D 9 video driver
 main/		main application code
 math/		math codebase
-opengldrv/	OpenGL video driver
+ogl/		OpenGL code
 video/		code for video graphics processing
 
 Needed libraries in linux:
@@ -37,9 +36,8 @@ several .so's and one "ovis_d" file in the root directory. svn ignore
 properties are set so that these are ignored too. In the "main" directory,
 moc_*.cc files are also ignored.
 
-Code in base/, math/, opengldrv/, d3d9drv/ and video/ originated from
-the Ion Engine codebase, which is LGPL-licensed. For more info, contact
-Carlos Rafael Giani (dv@dword.org).
+Code in base/, math/, ogl/ and video/ originated from the Ion Engine codebase,
+which is LGPL-licensed. For more info, contact Carlos Rafael Giani (dv@dword.org).
 
 To check out via ssh, use:
 

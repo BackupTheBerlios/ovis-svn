@@ -58,7 +58,7 @@ namespace video {
 			const ovis_uint32 modeindex,Videomode& mode,
 			const Pixelformat pixelformat) const=0;
 
-		virtual void init(base::Window* pWindow,const ovis_uint32 adapter,
+		virtual void init(const ovis_uint32 width,const ovis_uint32 height,
 			const Pixelformat colorbufferformat,const Pixelformat depthstencilformat,
 			const ovis_uint32 Hz)=0;
 
@@ -237,9 +237,6 @@ namespace video {
 		struct Renderdata;
 		Renderdata *m_pInternalData;
 	};
-
-	typedef Videodevice* (*CreateVideodeviceInstanceFunc)();
-	typedef const char* (*VideodeviceDescriptionFunc)();
 
 }
 }
