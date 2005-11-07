@@ -3,7 +3,7 @@
 #include "indexstream.hh"
 #include "vertexiterator.hh"
 #include "vertexstream.hh"
-#include "videodevice.hh"
+#include "renderer.hh"
 #include "visitorqueue.hh"
 #include "testtorus.hh"
 #include <math.h>
@@ -13,7 +13,7 @@ namespace video {
 
 	const char* Testtorus::type() const { return "Testtorus"; }
 
-	Testtorus::Testtorus(Videodevice& videodevice,const base::String& identifier,
+	Testtorus::Testtorus(Renderer& renderer,const base::String& identifier,
 		const float innerradius,const float outerradius,const unsigned long tesselation):Transformnode(identifier),
 		m_pTexture2D(0)
 	{
@@ -25,8 +25,8 @@ namespace video {
 		vf.addEntry(VertexFormatEntry_Texcoord2D,VertexFormatSemantic_Texcoord);
 		vf.addEntry(VertexFormatEntry_Normal,VertexFormatSemantic_Normal);
 
-		m_pVertexstream=videodevice.createVertexstream(numVertices,vf,Streamflags_Writeonly,Mempool_Managed);
-		m_pIndexstream=videodevice.createIndexstream(numIndices,Indexformat_16bit,Streamflags_Writeonly,Mempool_Managed);
+		m_pVertexstream=renderer.createVertexstream(numVertices,vf,Streamflags_Writeonly);
+		m_pIndexstream=renderer.createIndexstream(numIndices,Indexformat_16bit,Streamflags_Writeonly);
 
 		m_pVertexstream->map(Map_Writeonly);
 		Vertexiterator v(*m_pVertexstream);

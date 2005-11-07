@@ -7,7 +7,7 @@
 namespace ovis {
 namespace video {
 
-	class Videodevice;
+	class Renderer;
 	class Vertexstream;
 	class Indexstream;
 	class Texture2D;
@@ -15,7 +15,7 @@ namespace video {
 	class OVIS_API Testtorus:public Transformnode
 	{
 	public:
-		Testtorus(Videodevice& videodevice,const base::String& identifier,
+		Testtorus(Renderer& renderer,const base::String& identifier,
 			const float innerradius,const float outerradius,const unsigned long tesselation);
 		~Testtorus();
 

@@ -1,4 +1,5 @@
 #include <string>
+#include "ovisgl.hh"
 #include "../base/log.hh"
 #include "oglindexstream.hh"
 #include "ogldevice.hh"
@@ -17,8 +18,13 @@ namespace opengldrv {
 		pProc=(void*)wglGetProcAddress(name);
 #else
 
+#define USE_GLXGETPROCADDRESS_ARB
+
+#ifdef USE_GLXGETPROCADDRESS_ARB
+		pProc=(void*)glXGetProcAddressARB((const GLubyte*)name);
+#else
 		pProc=(void*)glXGetProcAddress((const GLubyte*)name);
-		//	pProc=(void*)glXGetProcAddressARB((const GLubyte*)name);
+#endif
 
 #endif
 		if (!pProc) base::log("OGLDevice::getGLExtensionProcAddress()",base::Warning) << "WARN: Extension proc " << name << " not found\n";

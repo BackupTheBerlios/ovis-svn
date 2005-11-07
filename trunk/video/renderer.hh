@@ -3,8 +3,12 @@
 
 #include "../base/basememobj.hh"
 #include "camera.hh"
+#include "cubemap.hh"
 #include "pixelformat.hh"
 #include "scenenode.hh"
+#include "indexstream.hh"
+#include "texture2d.hh"
+#include "vertexstream.hh"
 
 namespace ovis {
 namespace video {
@@ -20,6 +24,22 @@ namespace video {
 		/// Initializes the renderer with the given attributes		
 		virtual void init(const ovis_uint32 width,const ovis_uint32 height,
 			const Pixelformat colorbufferformat,const Pixelformat depthstencilformat,const ovis_uint32 Hz)=0;
+			
+		virtual void clear(const ovis_uint32 buffers,const base::Float4& color,const float zvalue=1.0f,
+			const ovis_uint32 stencilvalue=0)=0;
+			
+		virtual Vertexstream* createVertexstream(const ovis_uint32 numVertices,const Vertexformat& format,
+			const ovis_uint32 flags)=0;
+		virtual Indexstream* createIndexstream(const ovis_uint32 numIndices,const Indexformat format,
+			const ovis_uint32 flags)=0;
+
+		virtual Texture2D* create2DTexture(const base::String& identifier,const base::String& texturesource,
+			const ovis_uint32 width,const ovis_uint32 height,const ovis_uint32 levels,
+			const ovis_uint32 flags,const Pixelformat format)=0;
+
+		virtual Cubemap* createCubemap(const base::String& identifier,const base::String& texturesource,
+			const ovis_uint32 edgelength,const ovis_uint32 levels,
+			const ovis_uint32 flags,const Pixelformat format)=0;
 
 		/// Renders the scene with "scenenode" as root node
 		/**
