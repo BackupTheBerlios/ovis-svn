@@ -3,6 +3,7 @@
 
 #include "../base/basememobj.hh"
 #include "camera.hh"
+#include "pixelformat.hh"
 #include "scenenode.hh"
 
 namespace ovis {
@@ -15,6 +16,10 @@ namespace video {
 	{
 	public:
 		virtual ~Renderer();
+		
+		/// Initializes the renderer with the given attributes		
+		virtual void init(const ovis_uint32 width,const ovis_uint32 height,
+			const Pixelformat colorbufferformat,const Pixelformat depthstencilformat,const ovis_uint32 Hz)=0;
 
 		/// Renders the scene with "scenenode" as root node
 		/**

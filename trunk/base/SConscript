@@ -1,4 +1,4 @@
-filelist=['basememobj.cpp','datablock.cpp','defaultwindow_x11.cpp','dynobject_unix.cpp','fpscalc.cpp','localfile.cpp','localstreamable.cpp','log.cpp','managedmemobj.cpp','nullstream.cpp','numericarrays.cpp','pkdatablock.cpp','refcounted.cpp','stdoutstream.cpp','streamable.cpp','string.cpp','stringlist.cpp','timer.cpp']
+filelist=['basememobj.cpp','datablock.cpp','dynobject_unix.cpp','fpscalc.cpp','localfile.cpp','localstreamable.cpp','log.cpp','managedmemobj.cpp','nullstream.cpp','numericarrays.cpp','pkdatablock.cpp','refcounted.cpp','stdoutstream.cpp','streamable.cpp','string.cpp','stringlist.cpp','timer.cpp']
 
 libs=['dl']
 

@@ -6,7 +6,6 @@
 #include "../base/numericarrays.hh"
 #include "../base/itypes.hh"
 #include "../base/string.hh"
-#include "../base/window.hh"
 #include "../math/matrix.hh"
 #include "caps.hh"
 #include "coreenums.hh"
