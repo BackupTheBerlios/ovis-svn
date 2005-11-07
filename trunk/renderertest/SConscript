@@ -1,0 +1,15 @@
+filelist=['rtest.cpp','testwindow.cpp']
+
+Import('env', 'profile')
+
+localenv=env.Copy(OBJPREFIX='rtest_'+profile+'/',tools=['default','qt'])
+localenv['QT_LIB']='qt-mt'
+
+if profile == 'release':
+        localenv.Append(CXXFLAGS='-O2 -fomit-frame-pointer -pipe -Wall',LINKFLAGS='-Wl,-rpath=.',LIBPATH=['..'],LIBS=['ovisvideo','ovisbase','ovismath','oglrenderer'])
+        target='../rtest'
+        result = localenv.Program(target, source=filelist)
+elif profile == 'debug':
+        localenv.Append(CXXFLAGS='-ggdb -Wall',LINKFLAGS='-Wl,-rpath=.',LIBPATH=['..'],LIBS=['ovisvideo_d','ovisbase_d','ovismath_d','oglrenderer_d'])
+        target='../rtest_d'
+        result = localenv.Program(target, source=filelist)
