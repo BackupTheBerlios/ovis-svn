@@ -1,23 +1,24 @@
 OpenVisualizer v0.0000001
 
+
+
+For an overview of the code structure, look in doc/OVERVIEW
+
+
+
 Directory structure:
 
+doc/		Documentation
 base/		basic functionality used in all other components
 main/		main application code
 math/		math codebase
-ogl/		OpenGL code
-video/		code for video graphics processing
+ogl/		OpenGL code & renderer
+video/		codebase for graphics processing
 
 Needed libraries in linux:
-X11
 GL
-xxf86vm
 m
 dl
-
-You need one of these packages in debian/ubuntu:
-libxxf86vm-dev
-xlibs-static-dev
 
 There are two build profiles: release and debug.
 The project is built in the root directory using

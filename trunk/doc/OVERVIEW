@@ -1,0 +1,39 @@
+The video::Renderer class is the base of the graphics in OpenVisualizer.
+It traverses a scenegraph and renders the result of the visits.
+video::Renderer is an abstract class, and the derivatives can be loaded
+dynamically as plugins.
+
+So far, one derivative exists: oglrenderer in ogl/
+
+To show an object, one needs a video::Scenenode derivative which contains
+the object's data. This scenenode first allocates memory for vertices and
+indices using Renderer::createVertexstream() and Renderer::createIndexstream().
+Both streams are filled with data by first calling their map() methods, then
+transferring data using the set methods (for example, position(0,4.4f,1,1) to
+write coords 4.4,1,1 of vertex #0), then unmap(). map and unmap are necessary
+to ensure that the accessed memory is valid.
+
+After this, when the node gets visited, the renderer calls onVisit(), the
+parameter is a VisitContext instance, where the node can enter some Visit
+instances into the visitorqueue containing some rendering data.
+
+Usually, an application just has to create a renderer instance, create one
+or more nodes, connect them to form a graph, and call the renderScene()
+method of the renderer and giving a camera and one of the graph nodes as
+parameters.
+
+Some renderers require extra attention:
+The OGLRenderer stores the parameters supplied in init(), but does not
+actually initialize anything. It is expected that OpenGL is initialized
+*before* creating an OGLRenderer instance. This behavior is necessary
+for OGLRenderer	 usage with Qt's QGLWidget class.
+Other, non-hardware accelerated renderers yet to be written may require
+access to a framebuffer.
+
+
+
+
+The base::String class exists for DLL purposes only. Sometimes, std::string
+causes problems crossing DLLs. base::String wraps around std::string.
+base::Stringlist is just an array of base::String objects.
+base::Streamable exists for similar reasons.
