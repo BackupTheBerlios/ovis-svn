@@ -26,7 +26,7 @@ Some renderers require extra attention:
 The OGLRenderer stores the parameters supplied in init(), but does not
 actually initialize anything. It is expected that OpenGL is initialized
 *before* creating an OGLRenderer instance. This behavior is necessary
-for OGLRenderer	 usage with Qt's QGLWidget class.
+for OGLRenderer's usage with Qt's QGLWidget class.
 Other, non-hardware accelerated renderers yet to be written may require
 access to a framebuffer.
 
