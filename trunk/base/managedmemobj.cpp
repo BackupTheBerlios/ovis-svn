@@ -60,6 +60,8 @@ namespace base {
 		std::set< ManagedMemObj* >::iterator it=instances.begin();
 		unsigned long i=0;
 		for (;it!=instances.end();++it,++i) {
+			//type 'long long' is a gnu extension, not available on other 32-bit 
+			//operating systems. This is a portability issue!
 			logstream() << i << ": \"" << (*it)->objIdentifier() <<"\" ptr: " << ((long long)(*it)) << "\n";
 		}
 	}
