@@ -11,12 +11,9 @@ namespace base {
 	{
 		switch (level) {
 			case Message:return "Message";
-			case MinorWarning:return "Minor warning";
 			case Warning:return "Warning";
-			case MajorWarning:return "Major warning";
 			case Error:return "ERROR";
-			case FatalError:return "FATAL ERROR";
-			case CriticalError:return "CAUTION: CRITICAL ERROR";
+			case FatalError:return "ALERT: FATAL ERROR";
 			default:return "<Unknown>";
 		}
 	}

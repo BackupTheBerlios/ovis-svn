@@ -49,14 +49,27 @@ namespace base {
 		void operator delete[](void *mem);
 	
 	
-		// The object's name.
-		// Each object 
+		//! The object's identifier.
+		/**
+		* Each object has an identifier that ideally should be unique.
+		* The type, format, meaning of the identifier is not defined and can be chosen freely.
+		* This is mainly used for serialization and debugging purposes.
+		* @return the object identifier
+		*/
 		const String& objIdentifier() const;
 	
 		void operator =(const ManagedMemObj& src);
 	
 	
-	
+
+		// Getter for sanity check
+		/**
+		* This is intended for implementation in derived classes. It allows
+		* a sanity check whether the object's state is OK or invalid.
+		* For example, when a component could not be initialized, the object
+		* is in an invalid state, and this returns false.
+		* @return true if the object is valid, false otherwise.
+		*/
 		virtual bool isValid() const=0;
 	
 	protected:

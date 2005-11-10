@@ -51,30 +51,6 @@ void Streamable::readStr(String& str)
 	str.set(tmp);
 }
 
-/*const std::string& Streamable::readStr()
-{
-	m_pBufstring->clear();
-	char c=0;
-	do {
-		c=0;
-		(*this) >> c;
-		if (!c) break;
-		(*m_pBufstring)+=c;
-	} while (!eof());
-
-	return *m_pBufstring;
-}*/
-
-/*void Streamable::readStr(std::string &str)
-{
-	char c=0;
-	do {
-		(*this) >> c;
-		if (!c) break;
-		str+=c;
-	} while (1);
-}*/
-
 void Streamable::writeStr(const char *cstr)
 {
 	unsigned long len=static_cast<unsigned long>(strlen(cstr));

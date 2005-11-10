@@ -19,12 +19,19 @@ namespace base {
 		void update();
 
 		//! Retrieves the amount frames per second.
+		/**
+		* The frames per second are calculated using the difference() value, and calculating
+		* frequency()/difference(). This calculation is performed in Fpscalc::update().
+		* if difference() returns zero, this method returns -1.
+		* @return The frames per second.
+		*/
 		inline float fps() const { return m_FPS; }
 		//! Retrieves the speed factor.
 		/*! The speed factor is a value indicating the ratio between the time needed
 		for the frame and the timer frequency. Smaller values indicate less time needed
 		for a frame and thus more frames per second. Multiplying a movement value with
 		this factor results in fps-independent movement.
+		* @return The speed factor.
 		*/
 		inline float speedFactor() const { return m_SpeedFactor; }
 	};

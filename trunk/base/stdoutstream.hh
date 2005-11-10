@@ -7,6 +7,17 @@
 namespace ovis {
 namespace base {
 
+	//! Streamable sending output to stdout.
+	/**
+	* Characteristics:
+	* - All write calls() send the data to stdout
+	* - read() does nothing
+	* - eof() always returns false
+	* - name() returns "Stdoutstream"
+	*
+	* Usually, one does not create an instance of this; instead, it is common to use the static
+	* instance returned by stream().
+	*/
 	class OVIS_API Stdoutstream:public Streamable
 	{
 	public:
@@ -20,6 +31,7 @@ namespace base {
 
 		bool eof() const;
 
+		//! Returns a reference to a static instance of Stdoutstream.
 		static Stdoutstream& stream();
 	};
 

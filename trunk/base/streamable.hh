@@ -15,6 +15,16 @@ namespace base {
 	* Streamables are the primary data transfer mechanism in ovis. Streamable itself
 	* is an abstract base class with a number of derivatives, like Datablock for data
 	* in memory, Localfile for files on the local filesystem etc.
+	*
+	* Streamables provide stream operators for data transfer. It is possible to write
+	* stream << "Number 1: " << 571 << "\n"; for example. To enhance this, several
+	* methods and all stream operators return a reference to the streamable, making this
+	* possible: stream << "Test: " << stream.hex() << 223 << " " << stream.dez() << 19 << "\n";
+	* In addition, number translations are available only when they are transferred with
+	* stream operators. In other words: to make sure a 223 is written as "223" in the file,
+	* and not as one byte containing the value 223, one has to switch on ascii mode (see
+	* rawMode() for more), dez mode (see numMode() for mode), and transfer it using stream
+	* operators.
 	*/
 	class OVIS_API Streamable {
 	public:
@@ -41,36 +51,159 @@ namespace base {
 		*/
 		inline void nullAfterString(const bool state) { m_NullAfterString=state; }
 
+		//! Returns true if the stream is in raw mode.
+		/**
+		* Look at rawMode() for general information about raw/ascii mode.
+		* @return true if the streamable is in raw mode, false if it is in ascii mode.
+		*/
 		inline bool isInRawMode() const { return m_RawMode; }
+		//! Enables/disables raw mode.
+		/**
+		* A streamable can have two data encoding modes, raw or ascii. The difference lies
+		* in the way special codes are treated. In ascii mode, codes like line endings may
+		* be transformed, in raw mode, the data is not changed. In the standard C library's
+		* fopen() function raw mode is referred to as "binary" mode (the "b" specifier).
+		* @param rawmode Enables raw mode if the value is true, and the ascii mode if it is false
+		* @return Reference to this streamable. Useful for concatenating stream operations.
+		*/
 		inline Streamable& rawMode(const bool rawmode) { m_RawMode=rawmode; return *this; }
+		//! Enables raw mode.
+		/**
+		* Look at rawMode() for general information about raw/ascii mode.
+		* This method is equivalent to rawMode(true).
+		* @return true if the streamable is in raw mode, false if it is in ascii mode.
+		*/
 		inline Streamable& raw() { m_RawMode=true; return *this; }
+		//! Enables ascii mode.
+		/**
+		* Look at rawMode() for general information about raw/ascii mode.
+		* This method is equivalent to rawMode(false).
+		* @return true if the streamable is in raw mode, false if it is in ascii mode.
+		*/
 		inline Streamable& ascii() { m_RawMode=false; return *this; }
 
+		//! Returns the currently used num mode.
+		/**
+		* Have a look at numMode(NumMode nummode) for details.
+		* @return The num mode currently used.
+		*/
 		inline NumMode numMode() const { return m_NumMode; }
+		//! Sets the num mode.
+		/**
+		* The num mode specifies how numerical data is to be treated.
+		* There are several modes: decimal (dez), hexadecimal (hex), octal (oct),
+		* binary (bin) (do not confuse the binary num mode with raw mode, which is often
+		* referred to as "binary mode"). Numbers are written with the specified base, for
+		* example, if hexadecimal mode is used, and 58261 is passed through a stream
+		* operator to the streamable (e.g. streamable << 58261), then "e395" is written.
+		* Note that the num mode is only relevant in ascii mode, and then only when
+		* numbers are passed through the stream operators. If a number in a variable
+		* is written with the write() method, the variable contents are always written
+		* in raw mode (that is, the variable's bytes are written).
+		* @param nummode The numerical mode to be used.
+		* @return Reference to this streamable. Useful for concatenating stream operations.
+		*/
 		inline Streamable& numMode(NumMode nummode) { m_NumMode=nummode; return *this; }
+		//! Enables decimal num mode.
+		/**
+		* This is equivalent to numMode(NumMode_Dez).
+		* @return Reference to this streamable. Useful for concatenating stream operations.
+		*/
 		inline Streamable& dez() { m_NumMode=NumMode_Dez; return *this; }
+		//! Enables hexadecimal num mode.
+		/**
+		* This is equivalent to numMode(NumMode_Hex).
+		* @return Reference to this streamable. Useful for concatenating stream operations.
+		*/
 		inline Streamable& hex() { m_NumMode=NumMode_Hex; return *this; }
+		//! Enables octal num mode.
+		/**
+		* This is equivalent to numMode(NumMode_Oct).
+		* @return Reference to this streamable. Useful for concatenating stream operations.
+		*/
 		inline Streamable& oct() { m_NumMode=NumMode_Oct; return *this; }
+		//! Enables binary num mode.
+		/**
+		* This is equivalent to numMode(NumMode_Bin).
+		* @return Reference to this streamable. Useful for concatenating stream operations.
+		*/
 		inline Streamable& bin() { m_NumMode=NumMode_Bin; return *this; }
 
+		//! Cleans up internal stream data.
 		virtual ~Streamable();
-			
+
+		//! Returns the copy buffer size.
+		/*
+		* Have a look at setStreamCopyBuffersize(const unsigned long newBuffersize)
+		* for details.
+		* @return The copy buffer size, in bytes.
+		*/
 		inline unsigned long streamCopyBuffersize() const { return m_StreamCopyBufsize; }
+		
+		//! Sets the copy buffer size.
+		/**
+		* The stream copy buffer is necessary for stream-to-stream copies.
+		* Since a Streamable has an undetermined length, it is not possible to
+		* write all of its contents in one turn. Thus, chunks are read into the copy buffer
+		* and written from that buffer to the destination stream until there is no more
+		* data available to copy. This method sets the size of the copy buffer, in bytes.
+		* Default size is 32 KByte.
+		* @param newBuffersize New size of the copy buffer, in bytes.
+		*/
 		void setStreamCopyBuffersize(const unsigned long newBuffersize);
 
-		//const std::string& readStr();
+		//! Reads a string from the streamable and stores it into str.
+		/**
+		* This method reads a null-terminated string and stores it into
+		* the specified String object. No std::string is used here to
+		* prevent DLL boundary problems. The string size is adjusted to
+		* the size of the string that has been read.
+		* @param str The String object where the string is to be stored.
+		* @note This method is rarely used directly. Instead, it is common
+		* to use the stream operators for this (e.g. stream >> str).
+		*/
 		void readStr(String& str);
+		//! Writes a C string into the streamable.
+		/**
+		* Depending on the nullAfterString() state, this may write a zero
+		* after the string contents.
+		* @param cstr Pointer to the C-string.
+		* @note This method is rarely used directly. Instead, it is common
+		* to use the stream operators for this (e.g. stream << str).
+		*/
 		void writeStr(const char *cstr);
+		//! Writes an STL string into the streamable.
+		/**
+		* Depending on the nullAfterString() state, this may write a zero
+		* after the string contents.
+		* @param str Reference to the STL string.
+		* @note This method is rarely used directly. Instead, it is common
+		* to use the stream operators for this (e.g. stream << str).
+		*/
 		void writeStr(const std::string &str);
+		//! Writes a base::String into the streamable.
+		/**
+		* Depending on the nullAfterString() state, this may write a zero
+		* after the string contents.
+		* @param str Reference to the base::String.
+		* @note This method is rarely used directly. Instead, it is common
+		* to use the stream operators for this (e.g. stream << str).
+		*/
 		void writeStr(const String &str);
 
-		//! The precision of float->string conversions.
+		//! Sets the precision of float->string conversions.
 		/**
 		* Indicates the amount of digits after the dot.
 		* @param precision Number of digits after the dot.
 		* Example: if this is 2, a number 48.17481 is truncated to 48.17.
 		*/
 		void decimalConvPrecision(int precision) { precision=m_DecPrecision; }
+		
+		//! Returns the precision of float->string conversions.
+		/**
+		* Refer to decimalConvPrecision(int precision) for more details.
+		* @return The decimal precision.
+		*/
 		int decimalConvPrecision() const { return m_DecPrecision; }
 		
 		
@@ -162,6 +295,14 @@ namespace base {
 		// Stream operators for strings 
 
 
+		//! Transfers the contents of the src streamable into this streamable.
+		/**
+		* This adds the contents of src into this streamable, and does not clone src,
+		* thus it is possible that this streamable already has content, and src's contents
+		* are appended.
+		* @note The stream copy buffer is used for the transfer (see setStreamCopyBuffersize() for more).
+		* @param src The streamable whose contents are to be copied to this stream
+		*/
 		void transferFrom(Streamable& src);
 		
 		inline friend Streamable& operator >> (Streamable &src,Streamable &dest) { dest.transferFrom(src); return src; }
@@ -172,11 +313,43 @@ namespace base {
 
 		// Pure virtual methods
 
+		//! Streamable name.
+		/**
+		* A "name" of a stream can have very different meanings, depending on
+		* on the streamable type. The Localfile class uses this for the file name,
+		* for example. Either way, it should identify the stream reliably.
+		* @return The name of the streamable.
+		*/
 		virtual const std::string& name() const=0;
 
+		//! Writes data into the stream.
+		/**
+		* @param Src Pointer to the data to be written
+		* @param wsize Write size specifying the amount of bytes to be written
+		*
+		* @note The numerical mode (see numMode() for this) has zero effects on this method,
+		* but calling this while the stream is in ascii mode (see rawMode() for this)
+		* causes undefined behavior.
+		*/
 		virtual unsigned long write(const void *Src,const unsigned long wsize)=0;
+		//! Reads data from the stream.
+		/**
+		* @param Dest Pointer to a memory block where the read data is to be transferred
+		* @param rsize Read size specifying the amount of bytes to be read
+		*
+		* @note The numerical mode (see numMode() for this) has zero effects on this method,
+		* but calling this while the stream is in ascii mode (see rawMode() for this)
+		* causes undefined behavior.
+		*/
 		virtual unsigned long read(void *Dest,const unsigned long rsize)=0;
 
+		//! Specifies whether or not the end of the streamable has been reached.
+		/**
+		* This method is called eof() for historical purposes. Logically, it should
+		* be called eos(), but eof is instantly recognizable.
+		* @note This is always true if the stream has no defined end.
+		* @return true if the end of the streamable is reached, false otherwise.
+		*/
 		virtual bool eof() const=0;
 
 

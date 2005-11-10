@@ -8,34 +8,104 @@
 namespace ovis {
 namespace base {
 
+	//! STL string wrapper class.
+	/**
+	* This class is necessary for ensuring safe handling of strings across DLLs.
+	*/
 	class OVIS_API String:public BaseMemObj
 	{
 	public:
+		//! Constructor creating an empty (but valid) string.
 		String();
+		//! Constructor creating a string and copying a C-string's contents into it.
+		/**
+		* @param cstr The C string to be copied
+		*/
 		String(const char *cstr);
+		//! Constructor creating a string and copying an STL-string's contents into it.
+		/**
+		* @param str The STL string to be copied
+		*/
 		String(const std::string& str);
+		//! Copy constructor
+		/**
+		* @param str The string to be copied
+		*/
 		String(const String& str);
+		
+		//! Destructor. Deallocates the internal STL string.
 		~String();
+		
+		
 
+		//! Copies a C string's contents.
+		/**
+		* @param cstr The C string to be copied
+		*/
 		String& operator =(const char *cstr);
+		//! Copies a STL string's contents.
+		/**
+		* @param str The STL string to be copied
+		*/
 		String& operator =(const std::string& str);
+		//! Copies a string.
+		/**
+		* @param str The string to be copied
+		*/
 		String& operator =(const String& str);
+		
+		
+		
 
+		//! Appends a C string's contents to this string.
+		/**
+		* @param cstr The C string to be appended
+		*/
 		String& operator +=(const char *cstr);
+		//! Appends a STL string's contents to this string.
+		/**
+		* @param str The STL string to be appended
+		*/
 		String& operator +=(const std::string& str);
+		//! Appends a string to this string.
+		/**
+		* @param str The string to be appended
+		*/
 		String& operator +=(const String& str);
+		
+		
+		
 
+		//! Copies a C string's contents.
+		/**
+		* @param cstr The C string to be copied
+		*/
 		void set(const char *cstr);
+		//! Copies a STL string's contents.
+		/**
+		* @param str The STL string to be copied
+		*/
 		void set(const std::string& str);
+		//! Copies a string.
+		/**
+		* @param str The string to be copied
+		*/
 		void set(const String& str);
+
+
+
 		
 		bool compare(const String& str,const bool caseSensitive) const;
 		bool compare(const std::string& str,const bool caseSensitive) const;
 		bool compare(const char *cstr,const bool caseSensitive) const;
+		
+		
 
 		bool contains(const String& str,const unsigned long startpos=0) const;
 		bool contains(const std::string& str,const unsigned long startpos=0) const;
 		bool contains(const char *str,const unsigned long startpos=0) const;
+		
+		
 
 		bool empty() const;
 

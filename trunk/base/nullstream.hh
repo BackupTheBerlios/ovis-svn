@@ -11,6 +11,7 @@ namespace base {
 	This stream does .... nothing! :)
 	read() commands always return 0, write() commands always return the write amount
 	(without actually writing anything). Data sent to this stream vanishes in hyperspace.
+	This class is the equivalent to unix' /dev/null.
 	*/
 	class OVIS_API Nullstream:public LocalStreamable {
 	public:
