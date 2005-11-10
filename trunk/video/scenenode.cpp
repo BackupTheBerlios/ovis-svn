@@ -73,9 +73,6 @@ namespace video {
 
 	void Scenenode::clone(const Scenenode &srcSceneNode)
 	{
-		/*m_pInternaldata->m_InputNodes=srcSceneNode.internaldata().m_InputNodes;
-		m_pInternaldata->m_OutputNodes=srcSceneNode.internaldata().m_OutputNodes;*/
-
 		unsigned long nr;
 		for (nr=0;nr<srcSceneNode.numInputNodes();++nr)
 			addInputNode(*(srcSceneNode.inputnode(nr)));

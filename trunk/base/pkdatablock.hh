@@ -81,7 +81,7 @@ namespace base {
 		*/
 		PackedDatablock(PackHandler *pPackHandler=0):Datablock(),m_pPackHandler(pPackHandler) {}
 		//! Copy constructor.
-		PackedDatablock(PackedDatablock &rFrom):Datablock(rFrom),m_pPackHandler(rFrom.getPackHandler()) {}
+		PackedDatablock(PackedDatablock &rFrom):Datablock(rFrom),m_pPackHandler(rFrom.packhandler()) {}
 
 		//! Retrieves the default packhandler.
 		/**

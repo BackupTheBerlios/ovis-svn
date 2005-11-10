@@ -1,4 +1,4 @@
-filelist=['aabbvolume.cpp','arcball.cpp','camera.cpp','frustum.cpp','interpolator.cpp','lerp.cpp','obbvolume.cpp','rectangle.cpp','spherevolume.cpp','vectors.cpp']
+filelist=['aabbvolume.cpp','arcball.cpp','frustum.cpp','interpolator.cpp','lerp.cpp','obbvolume.cpp','rectangle.cpp','spherevolume.cpp','vectors.cpp']
 
 Import('env', 'profile')
 
