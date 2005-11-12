@@ -3,7 +3,7 @@ filelist=['main.cpp','mainwindow.cpp']
 Import('env', 'profile')
 
 localenv=env.Copy(OBJPREFIX='ovis_'+profile+'/',tools=['default','qt'])
-localenv['QT_LIB']='qt-mt'
+localenv['QT_LIB']='qt4-mt'
 
 if profile == 'release':
         localenv.Append(CXXFLAGS='-O2 -fomit-frame-pointer -pipe -Wall')
