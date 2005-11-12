@@ -1,11 +1,12 @@
 #ifndef OVIS_MAINWINDOW_HH_INCLUDED
 #define OVIS_MAINWINDOW_HH_INCLUDED
 
-#include <qapplication.h>
-#include <qmainwindow.h>
-#include <qmenubar.h>
-#include <qtabwidget.h>
-
+#include <QApplication>
+#include <QMainWindow>
+#include <QMenuBar>
+#include <QTabWidget>
+#include <QSettings>
+#include <QDesktopWidget>
 namespace ovis {
 
 	class Mainwindow:public QMainWindow
