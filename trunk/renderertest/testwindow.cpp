@@ -42,17 +42,17 @@ void TestGL::paintGL()
 
 Testwindow::Testwindow(QApplication *pApplication):m_pApplication(pApplication)
 {
+// 	see at main.cpp in main/ dir how to change this stuff 
+//	unsigned int dw=m_pApplication->desktop()->width();
+//	unsigned int dh=m_pApplication->desktop()->height();
 
-	unsigned int dw=m_pApplication->desktop()->width();
-	unsigned int dh=m_pApplication->desktop()->height();
+//	unsigned int w=dw*7/10;
+//	unsigned int h=dh*7/10;
 
-	unsigned int w=dw*7/10;
-	unsigned int h=dh*7/10;
-
-	move((dw-w)/2,(dh-h)/2);
-	resize(w,h);
+//	move((dw-w)/2,(dh-h)/2);
+//	resize(w,h);
 	
-	m_pTestGL=new TestGL(this,w,h);
+	m_pTestGL=new TestGL(this,800,600);
 	setCentralWidget(m_pTestGL);
 }
 

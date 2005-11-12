@@ -1,9 +1,9 @@
 #ifndef RTEST_TESTWINDOW_HH_INCLUDED
 #define RTEST_TESTWINDOW_HH_INCLUDED
 
-#include <qapplication.h>
-#include <qmainwindow.h>
-#include <qgl.h>
+#include <QApplication>
+#include <QMainWindow>
+#include <QtOpenGL>
 
 #include "../ogl/oglrenderer.hh"
 #include "../video/testtorus.hh"
