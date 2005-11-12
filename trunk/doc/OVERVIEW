@@ -5,22 +5,28 @@ dynamically as plugins.
 
 So far, one derivative exists: oglrenderer in ogl/
 
-To show an object, one needs a video::Scenenode derivative which contains
-the object's data. This scenenode first allocates memory for vertices and
-indices using Renderer::createVertexstream() and Renderer::createIndexstream().
-Both streams are filled with data by first calling their map() methods, then
-transferring data using the set methods (for example, position(0,4.4f,1,1) to
-write coords 4.4,1,1 of vertex #0), then unmap(). map and unmap are necessary
-to ensure that the accessed memory is valid.
-
-After this, when the node gets visited, the renderer calls onVisit(), the
-parameter is a VisitContext instance, where the node can enter some Visit
-instances into the visitorqueue containing some rendering data.
-
 Usually, an application just has to create a renderer instance, create one
 or more nodes, connect them to form a graph, and call the renderScene()
 method of the renderer and giving a camera and one of the graph nodes as
 parameters.
+
+So how does a node draw stuff?
+"Drawing" occurs in the onVisit() method of a node. When a renderer wants to
+render the scenegraph, it visits each node. The only parameter of onVisit()
+is a visit context provided by the renderer. Here, the node can append a
+request to render X faces of vertex stream V and index stream I, starting 
+from face A to face B etc. But! first, one needs a vertex & an index stream.
+
+When a node is constructed, it asks the renderer to provide it with a vertex
+stream and an index stream. Not all nodes do this of course, only those which
+need them (the Testtorus node for example). This is done with
+Renderer::createVertexstream() and Renderer::createIndexstream(). 
+Both streams are filled with data by first calling their map() methods, then
+transferring data using the set methods (for example, position(0,4.4f,1,1) to
+write coords 4.4,1,1 of vertex #0), then unmap(). map and unmap are necessary
+to ensure that the accessed memory is valid. This finishes streams initialization.
+
+
 
 Some renderers require extra attention:
 The OGLRenderer stores the parameters supplied in init(), but does not
@@ -37,3 +43,6 @@ The base::String class exists for DLL purposes only. Sometimes, std::string
 causes problems crossing DLLs. base::String wraps around std::string.
 base::Stringlist is just an array of base::String objects.
 base::Streamable exists for similar reasons.
+(Note that base::Streamable classes and video::Vertex/Indexstream classes
+are unrelated!)
+
