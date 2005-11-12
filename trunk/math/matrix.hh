@@ -96,10 +96,10 @@ namespace math {
 		*/
 		Matrix4f operator * ( const float scalar ) const
 		{
-			return Matrix4f( m_11 * scalar , m_12 * scalar , m_13 * scale , m_14 * scale,
-				m_21 * scalar , m_22 * scalar , m_23 * scalar , m_24 * scale,
-				m_31 * scalar , m_32 * scalar , m_33 * scalar , m_34 * scale,
-				m_41 * scalar , m_42 * scalar , m_43 * scalar , m_44 * scale
+			return Matrix4f( m_11 * scalar , m_12 * scalar , m_13 * scalar , m_14 * scalar,
+				m_21 * scalar , m_22 * scalar , m_23 * scalar , m_24 * scalar,
+				m_31 * scalar , m_32 * scalar , m_33 * scalar , m_34 * scalar,
+				m_41 * scalar , m_42 * scalar , m_43 * scalar , m_44 * scalar
 				);
 		}
 
@@ -364,7 +364,7 @@ namespace math {
 
 
 		//! Sets the member values to the identity matrix values.
-    	inline void loadIdentity()
+	    	inline void loadIdentity()
 		{
 			m_Floats[0] = m_Floats[5] = m_Floats[10] = m_Floats[15] = 1.0f;
 			m_Floats[1] = m_Floats[2] = m_Floats[3] = m_Floats[4] =  m_Floats[6] = m_Floats[7] = m_Floats[8] = m_Floats[9] = m_Floats[11] = m_Floats[12] = m_Floats[13] = m_Floats[14] = 0.0f;
@@ -376,9 +376,9 @@ namespace math {
 		* @note This does not reset all members. You have to call loadIdentity() first if the
 		* matrix wasn't an identity matrix before.
 		*/
-    	inline void rotateX(const float angle)
+    		inline void rotateX(const float angle)
 		{
-			float c = (float)cos(v);
+			float c = (float)cos(angle);
 			float s = (float)sin(angle);
 
 			m_Floats[5] = c;
@@ -393,7 +393,7 @@ namespace math {
 		* @note This does not reset all members. You have to call loadIdentity() first if the
 		* matrix wasn't an identity matrix before.
 		*/
-    	inline void rotateY(const float angle)
+	    	inline void rotateY(const float angle)
 		{
 			float c = (float)cos(angle);
 			float s = (float)sin(angle);
@@ -429,7 +429,7 @@ namespace math {
 		* @note This does not reset all members. You have to call loadIdentity() first if the
 		* matrix wasn't an identity matrix before.
 		*/
-    	inline void scale(const float x, const float y, const float z)
+	    	inline void scale(const float x, const float y, const float z)
 		{
 			m_Floats[ 0] = x;
 			m_Floats[ 5] = y;
@@ -470,7 +470,7 @@ namespace math {
 		* @note This does not reset all members. You have to call loadIdentity() first if the
 		* matrix wasn't an identity matrix before.
 		*/
-    	inline void translate(const float x, const float y, const float z)
+    		inline void translate(const float x, const float y, const float z)
 		{
 			m_Floats[12] = m_Floats[0] * x + m_Floats[4] * y + m_Floats[8]  * z + m_Floats[12];
 			m_Floats[13] = m_Floats[1] * x + m_Floats[5] * y + m_Floats[9]  * z + m_Floats[13];
@@ -484,7 +484,7 @@ namespace math {
 		* @note This does not reset all members. You have to call loadIdentity() first if the
 		* matrix wasn't an identity matrix before.
 		*/
-    	inline void translate(const float* vector)
+	    	inline void translate(const float* vector)
 		{
 			m_Floats[12] = m_Floats[0] * vector[0] + m_Floats[4] * vector[1] + m_Floats[8]  * vector[2] + m_Floats[12];
 			m_Floats[13] = m_Floats[1] * vector[0] + m_Floats[5] * vector[1] + m_Floats[9]  * vector[2] + m_Floats[13];

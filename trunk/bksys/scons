@@ -1,0 +1,89 @@
+#! /usr/bin/env python
+__revision__ = "src/script/scons.py 0.96.91 2005/10/17 20:04:26 ita"
+__version__ = "0.96.91"
+__build__ = "0.96.91"
+__buildsys__ = "linux"
+__date__ = "2005/10/17 20:04:26"
+__developer__ = "ita"
+import os
+import os.path
+import sys
+##############################################################################
+# BEGIN STANDARD SCons SCRIPT HEADER
+#
+# This is the cut-and-paste logic so that a self-contained script can
+# interoperate correctly with different SCons versions and installation
+# locations for the engine.  If you modify anything in this section, you
+# should also change other scripts that use this same header.
+##############################################################################
+# Strip the script directory from sys.path() so on case-insensitive
+# (WIN32) systems Python doesn't think that the "scons" script is the
+# "SCons" package.  Replace it with our own library directories
+# (version-specific first, in case they installed by hand there,
+# followed by generic) so we pick up the right version of the build
+# engine modules if they're in either directory.
+script_dir = sys.path[0]
+if script_dir in sys.path:
+    sys.path.remove(script_dir)
+libs = []
+if os.environ.has_key("SCONS_LIB_DIR"):
+    libs.append(os.environ["SCONS_LIB_DIR"])
+local = 'scons-local-' + __version__
+if script_dir:
+    local = os.path.join(script_dir, local)
+libs.append(local)
+scons_version = 'scons-%s' % __version__
+prefs = []
+if sys.platform == 'win32':
+    prefs.append(sys.prefix)
+    prefs.append(os.path.join(sys.prefix, 'Lib', 'site-packages'))
+else:
+    if script_dir == 'bin':
+        prefs.append(os.getcwd())
+    else:
+        if script_dir == '.' or script_dir == '':
+            script_dir = os.getcwd()
+        head, tail = os.path.split(script_dir)
+        if tail == "bin":
+            prefs.append(head)
+    head, tail = os.path.split(sys.prefix)
+    if tail == "usr":
+        prefs.append(sys.prefix)
+        prefs.append(os.path.join(sys.prefix, "local"))
+    elif tail == "local":
+        h, t = os.path.split(head)
+        if t == "usr":
+            prefs.append(sys.prefix)
+            prefs.append(head)
+        else:
+            prefs.append(sys.prefix)
+    else:
+        prefs.append(sys.prefix)
+    temp = map(lambda x: os.path.join(x, 'lib'), prefs)
+    temp.extend(map(lambda x: os.path.join(x,
+                                           'lib',
+                                           'python' + sys.version[:3],
+                                           'site-packages'),
+                           prefs))
+    prefs = temp
+    try:
+        libpath = os.__file__
+    except AttributeError:
+        pass
+    else:
+        while libpath:
+            libpath, tail = os.path.split(libpath)
+            if tail[:6] == "python":
+                break
+        if libpath:
+            prefs.append(libpath)
+# Look first for 'scons-__version__' in all of our preference libs,
+# then for 'scons'.
+libs.extend(map(lambda x: os.path.join(x, scons_version), prefs))
+libs.extend(map(lambda x: os.path.join(x, 'scons'), prefs))
+sys.path = libs + sys.path
+##############################################################################
+# END STANDARD SCons SCRIPT HEADER
+##############################################################################
+import SCons.Script
+SCons.Script.main()
