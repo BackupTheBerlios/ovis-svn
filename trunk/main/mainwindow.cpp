@@ -4,22 +4,23 @@ namespace ovis {
 
 	Mainwindow::Mainwindow(QApplication *pApplication):m_pApplication(pApplication)
 	{
-		unsigned int dw=m_pApplication->desktop()->width();
-		unsigned int dh=m_pApplication->desktop()->height();
+		QDesktopWidget *desktop = QApplication::desktop();
+		int dwidth  = desktop->width();
+		int dheight = desktop->height();
+		int width   = dwidth  * 7/10;
+		int height  = dheight * 7/10;
 
-		unsigned int w=dw*7/10;
-		unsigned int h=dh*7/10;
+		QSettings settings("OpenVisualizer", "AppExpl");
+		QPoint pos = settings.value("pos",  QPoint((dwidth-width)/2,(dheight-height)/2)).toPoint();
+		QSize size = settings.value("size", QSize(width, height)).toSize();
+		resize(size);
+		move(pos);
 
-		move((dw-w)/2,(dh-h)/2);
-		resize(w,h);
-
-		// This forces the creation of a status bar
 		statusBar();
-		
+		menuBar();	
 		m_pTabwidget=new QTabWidget(this);
 		setCentralWidget(m_pTabwidget);
 		
-		m_pMenubar=new QMenuBar(this,"Menubar");
 	}
 
 	Mainwindow::~Mainwindow()
