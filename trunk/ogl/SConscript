@@ -1,14 +1,38 @@
-filelist=['bufobject.cpp','ovisgl.cpp','ogl2dtexture.cpp','ogldevice.cpp','oglindexstream.cpp','oglrenderer.cpp','oglvertexstream.cpp','tooglconvs.cpp']
+#! /usr/bin/env python
+## This script demonstrates how to build and install
+## a simple kde program having KconfigXT settings
+## with scons
+##
+## Thomas Nagy, 2004, 2005
 
-Import('env', 'profile')
+## This file can be reused freely for any project (see COPYING)
 
-localenv=env.Copy(OBJPREFIX='oglrenderer_'+profile+'/',LIBPATH=['..','/usr/X11R6/lib'],CPPPATH=['/usr/X11R6/include'])
+############################
+## load the config
 
-if profile == 'release':
-        localenv.Append(LIBS=['ovisbase','ovismath','ovisvideo','GL'],CXXFLAGS='-O2 -fomit-frame-pointer -pipe -Wall')
-        target='../oglrenderer'
-        result = localenv.SharedLibrary(target, source=filelist)
-elif profile == 'debug':
-        localenv.Append(LIBS=['ovisbase_d','ovismath_d','ovisvideo_d','GL'],CXXFLAGS='-ggdb -Wall')
-        target='../oglrenderer_d'
-        result = localenv.SharedLibrary(target, source=filelist)
+## Use the environment and the tools set in the top-level
+## SConstruct file (set with 'Export') - this is very important
+
+Import( 'env' )
+
+obj=env.genobj('shlib', env)
+obj.target='ovisopengl'
+obj.libprefix='../build/lib'
+obj.source="""
+bufobject.cpp
+ogl2dtexture.cpp
+ogldevice.cpp
+oglindexstream.cpp
+oglrenderer.cpp
+oglvertexstream.cpp
+ovisgl.cpp
+tooglconvs.cpp
+"""
+#obj.cxxflags='-DQT_THREAD_SUPPORT'
+obj.uselib=''
+obj.libs='base math video'
+obj.includes='.'
+obj.instdir='/usr/local/lib'
+obj.libpaths=['#build']
+obj.execute()
+

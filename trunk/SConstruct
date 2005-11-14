@@ -1,21 +1,38 @@
-profile = ARGUMENTS.get('profile', 'release')
+#! /usr/bin/env python
 
-if not (profile in ['release','debug']):
-        print "Invalid profile"
-        Exit(1)
+###################################################################
+# LOAD THE ENVIRONMENT AND SET UP THE TOOLS
+###################################################################
 
-print '**** Compiling in ' + profile + ' mode...'
+## We assume that 'bksys' is our admin directory
+import sys, os
+sys.path.append('bksys')
 
-import os
+## Import the main configuration tool
+from generic import configure
+config = {
+	'modules'  : 'generic qt4',
+#	'builddir' : 'build', # put all object files under './'
+	'config.h' : 0,
+	'rpath'    : 1,
+	'bootstrap': 1,
+	'colorful' : not os.environ.has_key('NOCOLORS'),
+}
 
-env = Environment()
-Export('env', 'profile')
-env.SConsignFile()
-env.AppendUnique(ENV={'PATH':os.environ['PATH'],'HOME':os.environ['HOME']})
+# and the config.h
+env=configure(config)
 
-SConscript('base/SConscript')
-SConscript('math/SConscript')
-SConscript('video/SConscript')
-SConscript('ogl/SConscript')
-SConscript('renderertest/SConscript')
-SConscript('main/SConscript')
+###################################################################
+# SCRIPTS FOR BUILDING THE TARGETS
+###################################################################
+
+env.BuildDir('#build', 'base', duplicate=0)
+env.subdirs("build")
+
+###################################################################
+# CONVENIENCE FUNCTIONS TO EMULATE 'make dist' and 'make distclean'
+###################################################################
+
+# if you forget to add a version number, the one in the file VERSION will be used instead
+env.dist('ovis', '1.0.1')
+

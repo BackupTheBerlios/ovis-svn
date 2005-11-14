@@ -1,17 +1,49 @@
-filelist=['basememobj.cpp','datablock.cpp','dynobject_unix.cpp','fpscalc.cpp','localfile.cpp','localstreamable.cpp','log.cpp','managedmemobj.cpp','nullstream.cpp','numericarrays.cpp','pkdatablock.cpp','refcounted.cpp','stdoutstream.cpp','streamable.cpp','string.cpp','stringlist.cpp','timer.cpp']
+#! /usr/bin/env python
+## This script demonstrates how to build and install
+## a simple kde program having KconfigXT settings
+## with scons
+##
+## Thomas Nagy, 2004, 2005
 
-libs=['dl']
+## This file can be reused freely for any project (see COPYING)
 
-Import('env', 'profile')
+############################
+## load the config
 
-localenv=env.Copy(OBJPREFIX='base_'+profile+'/',LIBS=libs,CPPPATH=['/usr/X11R6/include'],LIBPATH=['/usr/X11R6/lib'])
+## Use the environment and the tools set in the top-level
+## SConstruct file (set with 'Export') - this is very important
 
-if profile == 'release':
-        localenv.Append(CXXFLAGS='-O2 -fomit-frame-pointer -pipe -Wall')
-        target='../ovisbase'
-        result = localenv.SharedLibrary(target, source=filelist)
-elif profile == 'debug':
-        localenv.Append(CXXFLAGS='-ggdb -Wall')
-        target='../ovisbase_d'
-        result = localenv.SharedLibrary(target, source=filelist)
+Import( 'env' )
 
+env.BuildDir('build', 'base', duplicate=0)
+
+obj=env.genobj('shlib', env)
+obj.target='base'
+#obj.libprefix='../build/lib'
+obj.source="""
+basememobj.cpp
+bz2pkhandler.cpp
+datablock.cpp
+dynobject_unix.cpp
+fpscalc.cpp
+localfile.cpp
+localstreamable.cpp
+log.cpp
+managedmemobj.cpp
+nullstream.cpp
+numericarrays.cpp
+pkdatablock.cpp
+refcounted.cpp
+stdoutstream.cpp
+streamable.cpp
+string.cpp
+stringlist.cpp
+timer.cpp
+zpkhandler.cpp
+"""
+#obj.cxxflags='-DQT_THREAD_SUPPORT'
+obj.uselib=''
+obj.libs='dl z bz2'
+obj.includes='.'
+obj.instdir='/usr/local/lib'
+obj.execute()
