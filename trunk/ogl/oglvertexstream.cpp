@@ -93,6 +93,7 @@ namespace opengldrv {
 					glTexCoordPointer(texsize,GL_FLOAT,m_Format.stride(),(const GLvoid*)offset);
 					++numtexcoord;
 					break;
+				case video::VertexFormatEntry_Boneweight:break;
 			}
 			offset+=video::vertexFormatEntrySizeLookup(vfentry);
 		}

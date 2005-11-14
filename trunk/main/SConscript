@@ -7,14 +7,6 @@
 
 ## This file can be reused freely for any project (see COPYING)
 
-<<<<<<< .mine
-############################
-## load the config
-=======
-localenv=env.Copy(OBJPREFIX='ovis_'+profile+'/',tools=['default','qt'])
-localenv['QT_LIB']='qt4-mt'
->>>>>>> .r26
-
 ## Use the environment and the tools set in the top-level
 ## SConstruct file (set with 'Export') - this is very important
 

@@ -529,8 +529,8 @@ namespace opengldrv {
 		video::Vertexstream& vertexstream,const ovis_uint32 firstElement,
 		const ovis_uint32 numElements)
 	{
-		GLenum ptype;
-		ovis_uint32 vtxfactor;
+		GLenum ptype=GL_POINTS;
+		ovis_uint32 vtxfactor=1;
 		switch (type) {
 			case video::Primitives_Points: vtxfactor=1; ptype=GL_POINTS; break;
 			case video::Primitives_Linestrip: vtxfactor=1; ptype=GL_LINE_STRIP; break;
@@ -552,8 +552,8 @@ namespace opengldrv {
 		const ovis_uint32 indexOffset,
 		const ovis_uint32 numElements)
 	{
-		GLenum ptype;
-		ovis_uint32 vtxfactor;
+		GLenum ptype=GL_POINTS;
+		ovis_uint32 vtxfactor=1;
 		switch (type) {
 			case video::Primitives_Points: vtxfactor=1; ptype=GL_POINTS; break;
 			case video::Primitives_Linestrip: vtxfactor=1; ptype=GL_LINE_STRIP; break;
@@ -658,7 +658,7 @@ namespace opengldrv {
 	// z test function. default: lessequal
 	void OGLDevice::zfunc(const video::CompareFunc func)
 	{
-		GLenum glfunc;
+		GLenum glfunc=GL_ALWAYS;
 
 		switch (func) {
 			case video::CompareFunc_Never:glfunc=GL_NEVER; break;
@@ -677,7 +677,7 @@ namespace opengldrv {
 	// z test function. default: lessequal,0,0
 	void OGLDevice::stencilfunc(const video::CompareFunc func,const ovis_uint32 ref,const ovis_uint32 writemask)
 	{
-		GLenum glfunc;
+		GLenum glfunc=GL_ALWAYS;
 
 		switch (func) {
 			case video::CompareFunc_Never:glfunc=GL_NEVER; break;
