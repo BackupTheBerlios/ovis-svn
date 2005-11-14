@@ -42,16 +42,18 @@ void TestGL::paintGL()
 
 Testwindow::Testwindow(QApplication *pApplication):m_pApplication(pApplication)
 {
-// 	see at main.cpp in main/ dir how to change this stuff 
-//	unsigned int dw=m_pApplication->desktop()->width();
-//	unsigned int dh=m_pApplication->desktop()->height();
+	QDesktopWidget *desktop = QApplication::desktop();
+     	int dwidth  = desktop->width();
+     	int dheight = desktop->height();
+     	int width   = dwidth  * 7/10;
+     	int height  = dheight * 7/10;
 
-//	unsigned int w=dw*7/10;
-//	unsigned int h=dh*7/10;
+	QSettings settings("OpenVisualizer", "AppExpl");
+	QPoint pos = settings.value("pos",  QPoint((dwidth-width)/2,(dheight-height)/2)).toPoint();
+	QSize size = settings.value("size", QSize(width, height)).toSize();
+	resize(size);
+	move(pos);
 
-//	move((dw-w)/2,(dh-h)/2);
-//	resize(w,h);
-	
 	m_pTestGL=new TestGL(this,800,600);
 	setCentralWidget(m_pTestGL);
 }
