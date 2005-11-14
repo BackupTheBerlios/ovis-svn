@@ -15,11 +15,11 @@
 
 Import( 'env' )
 
-env.BuildDir('build', 'base', duplicate=0)
+#env.BuildDir('build', 'base', duplicate=0)
 
 obj=env.genobj('shlib', env)
-obj.target='base'
-#obj.libprefix='../build/lib'
+obj.target='ovisbase'
+obj.libprefix='../build/lib'
 obj.source="""
 basememobj.cpp
 bz2pkhandler.cpp

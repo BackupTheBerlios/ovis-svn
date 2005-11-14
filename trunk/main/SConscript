@@ -1,15 +1,34 @@
-filelist=['main.cpp','mainwindow.cpp']
+#! /usr/bin/env python
+## This script demonstrates how to build and install
+## a simple kde program having KconfigXT settings
+## with scons
+##
+## Thomas Nagy, 2004, 2005
 
-Import('env', 'profile')
+## This file can be reused freely for any project (see COPYING)
 
+<<<<<<< .mine
+############################
+## load the config
+=======
 localenv=env.Copy(OBJPREFIX='ovis_'+profile+'/',tools=['default','qt'])
 localenv['QT_LIB']='qt4-mt'
+>>>>>>> .r26
 
-if profile == 'release':
-        localenv.Append(CXXFLAGS='-O2 -fomit-frame-pointer -pipe -Wall')
-        target='../ovis'
-        result = localenv.Program(target, source=filelist)
-elif profile == 'debug':
-        localenv.Append(CXXFLAGS='-ggdb -Wall')
-        target='../ovis_d'
-        result = localenv.Program(target, source=filelist)
+## Use the environment and the tools set in the top-level
+## SConstruct file (set with 'Export') - this is very important
+
+Import( 'env' )
+
+obj=env.qt4obj('program', env)
+obj.target='../build/ovis'
+obj.source="""
+main.cpp
+mainwindow.cpp
+"""
+#obj.cxxflags='-DQT_THREAD_SUPPORT'
+obj.uselib='QT QTCORE QTOPENGL'
+obj.includes='.'
+obj.instdir='/usr/local/bin'
+obj.libpaths=['#build']
+obj.execute()

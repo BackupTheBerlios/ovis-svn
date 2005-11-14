@@ -30,7 +30,7 @@ tooglconvs.cpp
 """
 #obj.cxxflags='-DQT_THREAD_SUPPORT'
 obj.uselib=''
-obj.libs='base math video'
+obj.libs='ovisbase ovismath ovisvideo'
 obj.includes='.'
 obj.instdir='/usr/local/lib'
 obj.libpaths=['#build']

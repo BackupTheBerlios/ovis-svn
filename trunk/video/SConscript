@@ -16,7 +16,7 @@
 Import( 'env' )
 
 obj=env.genobj('shlib', env)
-obj.target='video'
+obj.target='ovisvideo'
 obj.libprefix='../build/lib'
 obj.source="""
 attributebuffer.cpp
@@ -55,7 +55,7 @@ visitorqueue.cpp
 """
 #obj.cxxflags='-DQT_THREAD_SUPPORT'
 obj.uselib=''
-obj.libs='base math'
+obj.libs='ovisbase ovismath'
 obj.includes='.'
 obj.instdir='/usr/local/lib'
 obj.libpaths=['#build']

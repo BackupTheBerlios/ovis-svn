@@ -50,6 +50,7 @@ namespace base {
 			case SeekAbsolute:fseekorigin=SEEK_SET; break;
 			case SeekRelative:fseekorigin=SEEK_CUR; break;
 			case SeekFromEnd:fseekorigin=SEEK_END; break;
+			default:fseekorigin=SEEK_SET;
 		}
 		fseek(m_pFile,Pos,fseekorigin);
 	}

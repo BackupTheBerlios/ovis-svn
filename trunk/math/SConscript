@@ -16,7 +16,7 @@
 Import( 'env' )
 
 obj=env.genobj('shlib', env)
-obj.target='math'
+obj.target='ovismath'
 obj.libprefix='../build/lib'
 obj.source="""
 aabbvolume.cpp
@@ -31,7 +31,7 @@ vectors.cpp
 """
 #obj.cxxflags='-DQT_THREAD_SUPPORT'
 obj.uselib=''
-obj.libs='base m'
+obj.libs='ovisbase m'
 obj.includes='.'
 obj.instdir='/usr/local/lib'
 obj.libpaths=['#build']

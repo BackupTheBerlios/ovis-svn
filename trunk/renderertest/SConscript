@@ -1,15 +1,30 @@
-filelist=['rtest.cpp','testwindow.cpp']
+#! /usr/bin/env python
+## This script demonstrates how to build and install
+## a simple kde program having KconfigXT settings
+## with scons
+##
+## Thomas Nagy, 2004, 2005
 
-Import('env', 'profile')
+## This file can be reused freely for any project (see COPYING)
 
-localenv=env.Copy(OBJPREFIX='rtest_'+profile+'/',tools=['default','qt'])
-localenv['QT_LIB']='qt-mt'
+############################
+## load the config
 
-if profile == 'release':
-        localenv.Append(CXXFLAGS='-O2 -fomit-frame-pointer -pipe -Wall',LINKFLAGS='-Wl,-rpath=.',LIBPATH=['..'],LIBS=['ovisvideo','ovisbase','ovismath','oglrenderer'])
-        target='../rtest'
-        result = localenv.Program(target, source=filelist)
-elif profile == 'debug':
-        localenv.Append(CXXFLAGS='-ggdb -Wall',LINKFLAGS='-Wl,-rpath=.',LIBPATH=['..'],LIBS=['ovisvideo_d','ovisbase_d','ovismath_d','oglrenderer_d'])
-        target='../rtest_d'
-        result = localenv.Program(target, source=filelist)
+## Use the environment and the tools set in the top-level
+## SConstruct file (set with 'Export') - this is very important
+
+Import( 'env' )
+
+obj=env.qt4obj('program', env)
+obj.target='../build/rtest'
+obj.source="""
+rtest.cpp
+testwindow.cpp
+"""
+#obj.cxxflags='-DQT_THREAD_SUPPORT'
+obj.uselib='QT QTCORE QTOPENGL'
+obj.libs='ovisvideo ovisbase ovismath ovisopengl'
+obj.includes='.'
+obj.instdir='/usr/local/bin'
+obj.libpaths=['#build']
+obj.execute()

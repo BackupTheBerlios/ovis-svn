@@ -26,8 +26,7 @@ env=configure(config)
 # SCRIPTS FOR BUILDING THE TARGETS
 ###################################################################
 
-env.BuildDir('#build', 'base', duplicate=0)
-env.subdirs("build")
+env.subdirs('base math video ogl main renderertest')
 
 ###################################################################
 # CONVENIENCE FUNCTIONS TO EMULATE 'make dist' and 'make distclean'
