@@ -1,7 +1,0 @@
-Debug
-Debug/*
-Release
-Release/*
-video_debug
-video_release
-video.scons

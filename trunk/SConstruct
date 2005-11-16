@@ -13,7 +13,7 @@ from generic import configure
 config = {
 	'modules'  : 'generic qt4',
 #	'builddir' : 'build', # put all object files under './'
-	'config.h' : 0,
+	'config.h' : 1,
 	'rpath'    : 1,
 	'bootstrap': 1,
 	'colorful' : not os.environ.has_key('NOCOLORS'),
@@ -26,7 +26,8 @@ env=configure(config)
 # SCRIPTS FOR BUILDING THE TARGETS
 ###################################################################
 
-env.subdirs('base math video ogl main renderertest')
+#env.subdirs('base math video ogl main renderertest')
+env.subdirs('base math')
 
 ###################################################################
 # CONVENIENCE FUNCTIONS TO EMULATE 'make dist' and 'make distclean'
