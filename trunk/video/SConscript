@@ -1,0 +1,40 @@
+#! /usr/bin/env python
+## This script demonstrates how to build and install
+## a simple kde program having KconfigXT settings
+## with scons
+##
+## Thomas Nagy, 2004, 2005
+
+## This file can be reused freely for any project (see COPYING)
+
+############################
+## load the config
+
+## Use the environment and the tools set in the top-level
+## SConstruct file (set with 'Export') - this is very important
+
+Import( 'env' )
+
+obj=env.genobj('shlib', env)
+obj.target='ovisvideo'
+obj.libprefix='../build/lib'
+obj.source="""
+caps.cpp
+channeldatatype.cpp
+indexiterator.cpp
+indexstream.cpp
+memindexstream.cpp
+memvertexstream.cpp
+pixelformat.cpp
+scene.cpp
+vertexformat.cpp
+vertexiterator.cpp
+vertexstream.cpp
+"""
+#obj.cxxflags='-DQT_THREAD_SUPPORT'
+obj.uselib=''
+obj.libs='ovisbase ovismath'
+obj.includes='.'
+obj.instdir='/usr/local/lib'
+obj.libpaths=['#build']
+obj.execute()

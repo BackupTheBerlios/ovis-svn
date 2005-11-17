@@ -27,7 +27,7 @@ env=configure(config)
 ###################################################################
 
 #env.subdirs('base math video ogl main renderertest')
-env.subdirs('base math')
+env.subdirs('base math video')
 
 ###################################################################
 # CONVENIENCE FUNCTIONS TO EMULATE 'make dist' and 'make distclean'
