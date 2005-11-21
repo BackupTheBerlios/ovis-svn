@@ -2,6 +2,7 @@
 #define OVIS_VIDEO_VERTEXFORMAT_HH_INCLUDED
 
 #include "../base/dll.hh"
+#include "../base/itypes.hh"
 #include <vector>
 
 namespace ovis {
