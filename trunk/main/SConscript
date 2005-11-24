@@ -18,9 +18,10 @@ obj.source="""
 main.cpp
 mainwindow.cpp
 """
-#obj.cxxflags='-DQT_THREAD_SUPPORT'
-#obj.uselib='QT QTCORE QTOPENGL'
-obj.libs='QtCore QtGui QtOpenGL ovisbase ovisvideo ovismath'
+obj.cxxflags='-DQT_THREAD_SUPPORT'
+obj.uselib='QT QTCORE QTOPENGL'
+#obj.libs='QtCore QtGui QtOpenGL ovisbase ovisvideo ovismath'
+obj.libs='ovisbase ovisvideo ovismath'
 obj.includes=['.','/usr/include/qt4','/usr/include/qt4/QtCore','/usr/include/qt4/QtGui','/usr/include/qt4/QtOpenGL']
 obj.instdir='/usr/local/bin'
 obj.libpaths=['#build']
