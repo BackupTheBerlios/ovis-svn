@@ -19,6 +19,7 @@ obj=env.genobj('shlib', env)
 obj.target='ovisvideo'
 obj.libprefix='../build/lib'
 obj.source="""
+camera.cpp
 caps.cpp
 channeldatatype.cpp
 indexiterator.cpp

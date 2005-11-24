@@ -4,6 +4,7 @@
 #include "../base/dll.hh"
 #include "../base/basememobj.hh"
 
+#include "camera.hh"
 #include "memindexstream.hh"
 #include "memvertexstream.hh"
 #include "renderer.hh"
@@ -51,6 +52,9 @@ namespace video {
 		const Renderer& renderer() const;
 		void renderer(Renderer &rRenderer);
 
+		const Camera& camera() const;
+		Camera& camera();
+
 
 		bool isValid() const;
 
@@ -72,6 +76,8 @@ namespace video {
 		Vertexstream *m_pVertexstream;
 
 		Renderer *m_pRenderer;
+		
+		Camera m_Camera;
 	};
 
 }

@@ -84,6 +84,18 @@ namespace video {
 	{
 		m_pRenderer=&rRenderer;
 	}
+	
+	const Camera& Scene::camera() const
+	{
+		return m_Camera;
+	}
+	
+	Camera& Scene::camera()
+	{
+		return m_Camera;
+	}
+
+	
 
 
 	bool Scene::isValid() const
