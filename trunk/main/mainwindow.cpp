@@ -4,7 +4,7 @@ namespace ovis {
 
 	Mainwindow::Mainwindow(QApplication *pApplication):m_pApplication(pApplication)
 	{
-		QDesktopWidget *desktop = QApplication::desktop();
+		QDesktopWidget *desktop = QApplication::desktop() ;
 		int dwidth  = desktop->width();
 		int dheight = desktop->height();
 		int width   = dwidth  * 7/10;

@@ -49,6 +49,7 @@ namespace opengldrv {
 	
 	void OGLRenderer::resize(const ovis_uint32 width,const ovis_uint32 height)
 	{
+		glViewport(0,0,(GLint)width,(GLint)height);
 	}
 
 	void OGLRenderer::clear(const ovis_uint32 buffers,const base::Float4& color,const float zvalue,const ovis_uint32 stencilvalue)
@@ -361,7 +362,25 @@ namespace opengldrv {
 #endif /* GL_ARB_vertex_buffer_object */
 	}
 
-
-
 }
 }
+
+extern "C"
+#ifdef WIN32
+__declspec( dllexport )
+#endif
+ovis::video::Renderer* createRendererInstance(const ovis_uint32 width,const ovis_uint32 height)
+{
+	return new ovis::opengldrv::OGLRenderer(width,height);
+}
+
+
+extern "C"
+#ifdef WIN32
+__declspec( dllexport )
+#endif
+const char* rendererDescription()
+{
+	return "OpenGL renderer v0.5 build 2005-11-07 19:48";
+}
+

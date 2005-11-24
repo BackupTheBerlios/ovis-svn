@@ -49,7 +49,7 @@ namespace video {
 		Renderer(const ovis_uint32 width,const ovis_uint32 height) {}
 	};
 
-	typedef Renderer* (*CreateRendererInstanceFunc)();
+	typedef Renderer* (*CreateRendererInstanceFunc)(const ovis_uint32 width,const ovis_uint32 height);
 	typedef const char* (*RendererDescriptionFunc)();
 
 }
