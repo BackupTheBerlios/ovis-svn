@@ -6,7 +6,7 @@ namespace ovis {
 namespace video {
 
 	Scene::Scene(Renderer &rRenderer):m_pMemIndexstream(0),m_pMemVertexstream(0),m_pIndexstream(0),m_pVertexstream(0),
-		m_pRenderer(&rRenderer)
+		m_pRenderer(&rRenderer),m_pCamera(0)
 	{
 	}
 
@@ -85,14 +85,14 @@ namespace video {
 		m_pRenderer=&rRenderer;
 	}
 	
-	const Camera& Scene::camera() const
+	const Camera* Scene::camera() const
 	{
-		return m_Camera;
+		return m_pCamera;
 	}
 	
-	Camera& Scene::camera()
+	void Scene::camera(Camera &rCamera)
 	{
-		return m_Camera;
+		m_pCamera=&rCamera;
 	}
 
 	
@@ -100,15 +100,16 @@ namespace video {
 
 	bool Scene::isValid() const
 	{
-		if (!m_pRenderer || !m_pMemVertexstream || !m_pMemIndexstream || !m_pIndexstream || !m_pVertexstream) return false;
+		if (!m_pRenderer || !m_pMemVertexstream || !m_pMemIndexstream || !m_pIndexstream || !m_pVertexstream || !m_pCamera)
+			return false;
 		else return m_pRenderer->isValid() && m_pIndexstream->isValid() && m_pVertexstream->isValid();
 	}
 
 
 	void Scene::render()
 	{
+		if (!m_pRenderer || !m_pMemVertexstream || !m_pMemIndexstream || !m_pCamera) return;
 		if (!m_pIndexstream || !m_pVertexstream) initGeometrystreams();
-
 		m_pRenderer->render(*this);
 	}
 

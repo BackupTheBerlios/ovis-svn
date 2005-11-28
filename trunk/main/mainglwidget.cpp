@@ -33,11 +33,13 @@ namespace video {
 		//math::Quaternion quat;
 		//quat.fromRotAxisAndAngle(math::Vector3f(1,0,0),1);
 		//m_pScene->camera().viewmatrix().fromQuaternion(quat);
-		m_pScene->camera().viewmatrix().m_43=m_ViewDistance;
-		m_pScene->camera().projmatrix().perspective(
+		m_Camera.viewmatrix().m_43=m_ViewDistance;
+		m_Camera.projmatrix().perspective(
 			3.1415926535f*0.5f,
 			(float)(width())/(float)(height()),
 			1,100);
+
+		m_pScene->camera(m_Camera);
 
 		m_FPS.update();
 	}
@@ -45,7 +47,7 @@ namespace video {
 	void MainGLWidget::resizeGL(int w,int h)
 	{
 		glViewport(0,0,w,h);
-		m_pScene->camera().projmatrix().perspective(
+		m_Camera.projmatrix().perspective(
 			3.1415926535f*0.5f,
 			((float)w/(float)h),
 			1,100);
@@ -58,8 +60,8 @@ namespace video {
 		if (m_pScene) m_pScene->render();
 
 		glDisable(GL_LIGHTING);
-		QString fpstext; fpstext.setNum(m_FPS.fps()); fpstext+=" fps";
-		renderText(5+x(),5+y(),fpstext);
+		/*QString fpstext; fpstext.setNum(m_FPS.fps()); fpstext+=" fps";
+		renderText(5+x(),5+y(),fpstext);*/
 		m_FPS.update();
 	}
 
@@ -71,7 +73,7 @@ namespace video {
 
 		m_Arcball.click(xx,-yy);
 
-		m_OldViewmatrix=m_pScene->camera().viewmatrix();
+		m_OldViewmatrix=m_Camera.viewmatrix();
 		m_OldViewmatrix.m_43=0;
 
 		updateGL();
@@ -89,8 +91,8 @@ namespace video {
 		m_Arcball.drag(xx,-yy,&quat);
 		m.fromQuaternion(quat);
 
-		m_pScene->camera().viewmatrix()=m_OldViewmatrix*m;
-		m_pScene->camera().viewmatrix().m_43=m_ViewDistance;
+		m_Camera.viewmatrix()=m_OldViewmatrix*m;
+		m_Camera.viewmatrix().m_43=m_ViewDistance;
 
 		updateGL();
 	}
@@ -99,7 +101,7 @@ namespace video {
 	{
 		m_ViewDistance+=0.05f*((float)e->delta())/120.0f;
 		if (m_ViewDistance<1.0f) m_ViewDistance=1.0f;
-		m_pScene->camera().viewmatrix().m_43=m_ViewDistance;
+		m_Camera.viewmatrix().m_43=m_ViewDistance;
 
 		updateGL();
 	}

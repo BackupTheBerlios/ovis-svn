@@ -52,8 +52,8 @@ namespace video {
 		const Renderer& renderer() const;
 		void renderer(Renderer &rRenderer);
 
-		const Camera& camera() const;
-		Camera& camera();
+		const Camera* camera() const;
+		void camera(Camera &rCamera);
 
 
 		bool isValid() const;
@@ -77,7 +77,7 @@ namespace video {
 
 		Renderer *m_pRenderer;
 		
-		Camera m_Camera;
+		Camera* m_pCamera;
 	};
 
 }

@@ -22,9 +22,9 @@ namespace ovis {
 		m_pTabwidget=new QTabWidget(this);
 		setCentralWidget(m_pTabwidget);
 
-		QBoxLayout *pLayout=new QBoxLayout(QBoxLayout::LeftToRight,m_pTabwidget);
-
 		m_pGLWidget=new MainGLWidget(m_pTabwidget);
+
+		QBoxLayout *pLayout=new QBoxLayout(QBoxLayout::LeftToRight,m_pTabwidget);
 		pLayout->addWidget(m_pGLWidget);
 		m_pTabwidget->addTab(m_pGLWidget,"View");
 	}

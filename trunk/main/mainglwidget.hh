@@ -5,6 +5,7 @@
 #include "../base/fpscalc.hh"
 #include "../math/arcball.hh"
 #include "../ogl/oglrenderer.hh"
+#include "../video/camera.hh"
 #include "../video/scene.hh"
 
 namespace ovis {
@@ -30,6 +31,7 @@ namespace ovis {
 		math::Arcball m_Arcball;
 		math::Matrix4f m_OldViewmatrix;
 		float m_ViewDistance;
+		video::Camera m_Camera;
 	};
 
 }

@@ -52,11 +52,11 @@ namespace opengldrv {
 		const float *pF;
 
 		glMatrixMode(GL_PROJECTION);
-		pF=scene.camera().projmatrix();
+		pF=scene.camera()->projmatrix();
 		glLoadMatrixf(pF);
 
 		glMatrixMode(GL_MODELVIEW);
-		pF=scene.camera().viewmatrix();
+		pF=scene.camera()->viewmatrix();
 		glLoadMatrixf(pF);
 
 		glDisable(GL_LIGHTING);
@@ -70,7 +70,7 @@ namespace opengldrv {
 		drawIndexedPrimitives(video::Primitives_Triangles,*(scene.vertexstream()),*(scene.indexstream()),
 			0,scene.indexstream()->capacity()/3);
 
-		/*if ((m_Drawingmode==video::Drawingmode_FlatShadedAndWireframe) || (m_Drawingmode==video::Drawingmode_SmoothShadedAndWireframe)) {
+		if ((m_Drawingmode==video::Drawingmode_FlatShadedAndWireframe) || (m_Drawingmode==video::Drawingmode_SmoothShadedAndWireframe)) {
 			video::Drawingmode d=m_Drawingmode;
 			drawingmode(video::Drawingmode_Wireframe);
 
@@ -80,7 +80,7 @@ namespace opengldrv {
 				0,scene.indexstream()->capacity()/3);
 
 			drawingmode(d);
-		}*/
+		}
 	}
 	
 	void OGLRenderer::resize(const ovis_uint32 width,const ovis_uint32 height)
