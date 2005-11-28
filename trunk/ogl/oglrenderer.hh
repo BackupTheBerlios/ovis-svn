@@ -6,6 +6,7 @@
 #include "ovisgl.hh"
 #include "../base/dll.hh"
 #include "../math/matrix.hh"
+#include "../video/coreenums.hh"
 #include "../video/renderer.hh"
 
 namespace ovis {
@@ -27,11 +28,22 @@ namespace opengldrv {
 
 		bool supported() const;
 
+		void drawingmode(const video::Drawingmode mode);
+		video::Drawingmode drawingmode() const;
 
+		void drawPrimitives(const video::PrimitivesType type,
+			video::Vertexstream& vertexstream,const ovis_uint32 firstElement,
+			const ovis_uint32 numElements);
+		void drawIndexedPrimitives(
+			const video::PrimitivesType type,
+			video::Vertexstream& vertexstream,
+			video::Indexstream& indexstream,
+			const ovis_uint32 indexOffset,
+			const ovis_uint32 numElements);
 
 		bool extensionSupported(const std::string& extensionName) const;
 
-	protected:		
+	protected:
 
 		void *getGLExtensionProcAddress(const char *name) const;
 		
@@ -44,8 +56,9 @@ namespace opengldrv {
 		void initializeARBVertexProgram();
 		void initializeARBTextureCompression();
 
-		bool m_IsValid,m_Quitting;
+		bool m_IsValid;
 		math::Matrix4f m_World,m_View;
+		video::Drawingmode m_Drawingmode;
 
 		ovis_uint32 m_Displaywidth,m_Displayheight;
 

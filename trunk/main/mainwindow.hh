@@ -7,6 +7,9 @@
 #include <QTabWidget>
 #include <QSettings>
 #include <QDesktopWidget>
+
+#include "mainglwidget.hh"
+
 namespace ovis {
 
 	class Mainwindow:public QMainWindow
@@ -21,6 +24,7 @@ namespace ovis {
 		QApplication *m_pApplication;
 		QTabWidget *m_pTabwidget;
 		QMenuBar *m_pMenubar;
+		MainGLWidget *m_pGLWidget;
 	};
 
 }

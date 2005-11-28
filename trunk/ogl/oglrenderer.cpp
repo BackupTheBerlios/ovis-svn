@@ -1,8 +1,11 @@
 #include "../base/log.hh"
 #include "../video/coreenums.hh"
+#include "../video/scene.hh"
 #include "oglindexstream.hh"
 #include "oglrenderer.hh"
 #include "oglvertexstream.hh"
+
+#include <iostream>
 
 namespace ovis {
 namespace opengldrv {
@@ -21,11 +24,12 @@ namespace opengldrv {
 		glEnable(GL_TEXTURE_2D);
 		glDisable(GL_LIGHTING);
 
-		glFrontFace(GL_CCW);
+		glFrontFace(GL_CW);
 
 		m_Displaywidth=width;
 		m_Displayheight=height;
 
+		drawingmode(video::Drawingmode_SmoothShaded);
 
 
 
@@ -45,6 +49,38 @@ namespace opengldrv {
 
 	void OGLRenderer::render(video::Scene& scene)
 	{
+		const float *pF;
+
+		glMatrixMode(GL_PROJECTION);
+		pF=scene.camera().projmatrix();
+		glLoadMatrixf(pF);
+
+		glMatrixMode(GL_MODELVIEW);
+		pF=scene.camera().viewmatrix();
+		glLoadMatrixf(pF);
+
+		glDisable(GL_LIGHTING);
+		glDisable(GL_BLEND);
+
+		glEnable(GL_CULL_FACE);
+		glEnable(GL_DEPTH_TEST);
+
+		glDepthMask(GL_TRUE);
+
+		drawIndexedPrimitives(video::Primitives_Triangles,*(scene.vertexstream()),*(scene.indexstream()),
+			0,scene.indexstream()->capacity()/3);
+
+		/*if ((m_Drawingmode==video::Drawingmode_FlatShadedAndWireframe) || (m_Drawingmode==video::Drawingmode_SmoothShadedAndWireframe)) {
+			video::Drawingmode d=m_Drawingmode;
+			drawingmode(video::Drawingmode_Wireframe);
+
+			glDepthMask(GL_FALSE);
+
+			drawIndexedPrimitives(video::Primitives_Triangles,*(scene.vertexstream()),*(scene.indexstream()),
+				0,scene.indexstream()->capacity()/3);
+
+			drawingmode(d);
+		}*/
 	}
 	
 	void OGLRenderer::resize(const ovis_uint32 width,const ovis_uint32 height)
@@ -88,6 +124,86 @@ namespace opengldrv {
 		return true;
 	}
 
+	void OGLRenderer::drawingmode(const video::Drawingmode mode)
+	{
+		switch (mode) {
+			case video::Drawingmode_Points:
+				glShadeModel(GL_SMOOTH);
+				glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
+				break;
+			case video::Drawingmode_Wireframe:
+				glShadeModel(GL_SMOOTH);
+				glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+				break;
+			case video::Drawingmode_FlatShaded:
+			case video::Drawingmode_FlatShadedAndWireframe:
+				glShadeModel(GL_FLAT);
+				glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+				break;
+			case video::Drawingmode_SmoothShaded:
+			case video::Drawingmode_SmoothShadedAndWireframe:
+				glShadeModel(GL_SMOOTH);
+				glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+				break;
+		};
+	}
+
+	video::Drawingmode OGLRenderer::drawingmode() const
+	{
+		return m_Drawingmode;
+	}
+
+	void OGLRenderer::drawPrimitives(const video::PrimitivesType type,
+		video::Vertexstream& vertexstream,const ovis_uint32 firstElement,
+		const ovis_uint32 numElements)
+	{
+		GLenum ptype=GL_POINTS;
+		ovis_uint32 vtxfactor=1;
+		switch (type) {
+			case video::Primitives_Points: vtxfactor=1; ptype=GL_POINTS; break;
+			case video::Primitives_Linestrip: vtxfactor=1; ptype=GL_LINE_STRIP; break;
+			case video::Primitives_Lines: vtxfactor=1; ptype=GL_LINES; break;
+			case video::Primitives_Trianglestrip: vtxfactor=1; ptype=GL_TRIANGLE_STRIP; break;
+			case video::Primitives_Trianglefan: vtxfactor=1; ptype=GL_TRIANGLE_FAN; break;
+			case video::Primitives_Triangles: vtxfactor=3; ptype=GL_TRIANGLES; break;
+		}
+
+		vertexstream.bind();
+
+		glDrawArrays(ptype,firstElement,numElements*vtxfactor);
+	}
+
+	void OGLRenderer::drawIndexedPrimitives(
+		const video::PrimitivesType type,
+		video::Vertexstream& vertexstream,
+		video::Indexstream& indexstream,
+		const ovis_uint32 indexOffset,
+		const ovis_uint32 numElements)
+	{
+		GLenum ptype=GL_POINTS;
+		ovis_uint32 vtxfactor=1;
+		switch (type) {
+			case video::Primitives_Points: vtxfactor=1; ptype=GL_POINTS; break;
+			case video::Primitives_Linestrip: vtxfactor=1; ptype=GL_LINE_STRIP; break;
+			case video::Primitives_Lines: vtxfactor=1; ptype=GL_LINES; break;
+			case video::Primitives_Trianglestrip: vtxfactor=1; ptype=GL_TRIANGLE_STRIP; break;
+			case video::Primitives_Trianglefan: vtxfactor=1; ptype=GL_TRIANGLE_FAN; break;
+			case video::Primitives_Triangles: vtxfactor=3; ptype=GL_TRIANGLES; break;
+		}
+
+		vertexstream.bind();
+		indexstream.bind();
+
+		glDrawElements(ptype,numElements*vtxfactor,
+			(indexstream.indexformat()==video::Indexformat_16bit) ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT,
+#ifdef _MSC_VER
+#pragma warning(disable:4312)
+#endif
+			(const GLvoid*)(indexformatSizeLookup(indexstream.indexformat())*indexOffset));
+#ifdef _MSC_VER
+#pragma warning(default:4312)
+#endif
+	}
 
 	void *OGLRenderer::getGLExtensionProcAddress(const char *name) const
 	{

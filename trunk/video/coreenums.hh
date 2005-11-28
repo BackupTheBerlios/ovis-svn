@@ -74,11 +74,6 @@ namespace video {
 		Space_Cameraspace
 	};
 
-	enum Solidshading {
-		Solidshading_Flat,
-		Solidshading_Smooth
-	};
-
 	enum Clearflags {
 		Clear_Colorbuffer=1,
 		Clear_Depthbuffer=2,
@@ -177,8 +172,11 @@ namespace video {
 	enum Drawingmode
 	{
 		Drawingmode_Points,
-		Drawingmode_Lines,
-		Drawingmode_Faces
+		Drawingmode_Wireframe,
+		Drawingmode_FlatShaded,
+		Drawingmode_SmoothShaded,
+		Drawingmode_FlatShadedAndWireframe,
+		Drawingmode_SmoothShadedAndWireframe
 	};
 
 	enum PrimitivesType

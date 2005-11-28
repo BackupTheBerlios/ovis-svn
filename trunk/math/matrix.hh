@@ -565,7 +565,7 @@ namespace math {
 		inline void perspective(const float fov,const float aspect,
 			const float znear,const float zfar)
 		{
-			float top=znear*tanf(fov);
+			float top=znear*tanf(fov*0.5f);
 			float bottom=-top;
 			float left=bottom*aspect;
 			float right=top*aspect;
