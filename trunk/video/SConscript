@@ -24,6 +24,7 @@ attributetable.cpp
 camera.cpp
 caps.cpp
 channeldatatype.cpp
+colorscale.cpp
 indexiterator.cpp
 indexstream.cpp
 material.cpp
@@ -36,7 +37,7 @@ vertexformat.cpp
 vertexiterator.cpp
 vertexstream.cpp
 """
-#obj.cxxflags='-DQT_THREAD_SUPPORT'
+obj.cxxflags='-ggdb'
 obj.uselib=''
 obj.libs='ovisbase ovismath'
 obj.includes='.'

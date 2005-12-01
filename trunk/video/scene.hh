@@ -7,6 +7,7 @@
 #include "attributebuffer.hh"
 #include "attributetable.hh"
 #include "camera.hh"
+#include "colorscale.hh"
 #include "material.hh"
 #include "memindexstream.hh"
 #include "memvertexstream.hh"
@@ -34,7 +35,8 @@ namespace video {
 	* initGeometrystreams() manually (the render() call takes care of this if needed).
 	* However, if geometry data in the memstrams is changed, you HAVE to call it manually to copy the new
 	* contents to the renderer streams.
-	* Use the attribute MATERIAL_VERTEXCOLOR in the attribute buffer to mark areas to be rendered using vertex colors
+	* Use the attribute MATERIAL_VERTEXCOLOR in the attribute buffer to mark areas to be rendered using vertex colors.
+	* To include factors, use a 1D texcoord (VertexFormatEntry_Texcoord1D) with the VertexFormatSemantic_Factor semantic.
 	*/
 
 	class Scene:public base::BaseMemObj
@@ -69,6 +71,9 @@ namespace video {
 		const Camera* camera() const;
 		void camera(Camera &rCamera);
 
+		const Colorscale* colorscale() const;
+		void colorscale(Colorscale &rColorscale);
+
 		void addMaterial(const Material& m);
 		void removeMaterial(const Material* m);
 		unsigned long numMaterials() const;
@@ -91,14 +96,11 @@ namespace video {
 	protected:
 		MemIndexstream *m_pMemIndexstream;
 		MemVertexstream *m_pMemVertexstream;
-
 		Indexstream *m_pIndexstream;
 		Vertexstream *m_pVertexstream;
-
-		Renderer *m_pRenderer;
-		
-		Camera* m_pCamera;
-
+		Renderer *m_pRenderer;		
+		Camera *m_pCamera;
+		Colorscale *m_pColorscale;
 		Attributebuffer m_Attributebuffer;
 		Attributetable m_Attributetable;
 

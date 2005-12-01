@@ -3,6 +3,7 @@
 #include <vector>
 #include "coreenums.hh"
 #include "scene.hh"
+#include <iostream>
 
 namespace ovis {
 namespace video {
@@ -17,7 +18,7 @@ namespace video {
 
 
 	Scene::Scene(Renderer &rRenderer):m_pMemIndexstream(0),m_pMemVertexstream(0),m_pIndexstream(0),m_pVertexstream(0),
-		m_pRenderer(&rRenderer),m_pCamera(0),m_pMateriallist(new Materiallist)
+		m_pRenderer(&rRenderer),m_pCamera(0),m_pColorscale(0),m_pMateriallist(new Materiallist)
 	{
 	}
 
@@ -133,6 +134,17 @@ namespace video {
 		m_pCamera=&rCamera;
 	}
 
+	const Colorscale* Scene::colorscale() const
+	{
+		return m_pColorscale;
+	}
+
+	void Scene::colorscale(Colorscale &rColorscale)
+	{
+		m_pColorscale=&rColorscale;
+	}
+
+
 
 
 	void Scene::addMaterial(const Material& m)
@@ -194,8 +206,13 @@ namespace video {
 
 		if ((m_pMemIndexstream->capacity()==0) || (m_pMemVertexstream->capacity()==0)) return;
 
+
+
 		m_Attributebuffer.reorganize(m_pMemIndexstream);
 		m_Attributetable.recalculate(m_Attributebuffer);
+
+
+
 
 		m_pIndexstream=m_pRenderer->createIndexstream(
 			m_pMemIndexstream->capacity(),
@@ -203,15 +220,47 @@ namespace video {
 			Streamflags_Writeonly
 			);
 
+		m_pIndexstream->map(Map_Writeonly);
+		m_pIndexstream->transferFrom(*m_pMemIndexstream);
+		m_pIndexstream->unmap();
+
+
+
+		if (m_pMemVertexstream->vertexformat().contains(VertexFormatEntry_Texcoord1D,VertexFormatSemantic_Factor,0) && (m_pColorscale!=0)) {
+
+			ovis_uint32 numVertices=m_pMemVertexstream->capacity();
+			const Vertexformat &format=m_pMemVertexstream->vertexformat();
+			Vertexformat newformat;
+			for (ovis_uint32 eidx=0;eidx<format.numEntries();++eidx) {
+
+				// If the factor entry is present, and no diffuse entry is there, create one
+				if ((format.entry(eidx)==VertexFormatEntry_Texcoord1D) && (format.entrySemantic(eidx)==VertexFormatSemantic_Factor)) {
+					if (!format.contains(VertexFormatEntry_Diffuse,0))
+						newformat.addEntry(VertexFormatEntry_Diffuse,VertexFormatSemantic_None);
+				}
+				else newformat.addEntry(format.entry(eidx),format.entrySemantic(eidx));
+			}
+			MemVertexstream *pMVtx=new MemVertexstream(newformat,numVertices);
+			pMVtx->transferFrom(*m_pMemVertexstream);
+
+			// Calculate the colors using the color scale and the factors from m_pMemVertexstream
+			for (ovis_uint32 vtxidx=0;vtxidx<numVertices;++vtxidx) {
+				float f=m_pMemVertexstream->texcoord1D(vtxidx,0);
+				ovis_uint8 a,b,g,r;
+				m_pColorscale->lerpColor(f,a,b,g,r);
+				pMVtx->diffuseColor(vtxidx,a,r,g,b);
+			}
+
+			delete m_pMemVertexstream;
+			m_pMemVertexstream=pMVtx;
+		}
+
 		m_pVertexstream=m_pRenderer->createVertexstream(
 			m_pMemVertexstream->capacity(),
 			m_pMemVertexstream->vertexformat(),
 			Streamflags_Writeonly
 			);
 
-		m_pIndexstream->map(Map_Writeonly);
-		m_pIndexstream->transferFrom(*m_pMemIndexstream);
-		m_pIndexstream->unmap();
 		m_pVertexstream->map(Map_Writeonly);
 		m_pVertexstream->transferFrom(*m_pMemVertexstream);
 		m_pVertexstream->unmap();

@@ -7,6 +7,7 @@
 #include "../math/quaternion.hh"
 #include "../ogl/oglrenderer.hh"
 #include "../video/camera.hh"
+#include "../video/colorscale.hh"
 #include "../video/scene.hh"
 #include "rotationcube.hh"
 
@@ -36,6 +37,7 @@ namespace ovis {
 		math::Quaternion m_Rotation,m_OldRotation;
 		math::Vector3f m_Position;
 		video::Camera m_Camera;
+		video::Colorscale m_Colorscale;
 		RotationCube m_RotCube;
 	};
 

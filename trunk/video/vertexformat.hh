@@ -32,7 +32,8 @@ namespace video {
 		VertexFormatSemantic_Binormal=3,
 		VertexFormatSemantic_Normal=4,
 		VertexFormatSemantic_Texcoord=5,
-		VertexFormatSemantic_SHCoefficients=6
+		VertexFormatSemantic_SHCoefficients=6,
+		VertexFormatSemantic_Factor
 	};
 
 	OVIS_API unsigned long vertexFormatEntrySizeLookup(const VertexFormatEntry entry);
@@ -54,7 +55,8 @@ namespace video {
 		void operator =(const Vertexformat& src);
 		void clone(const Vertexformat& src);
 
-		bool contains(const VertexFormatEntry entry,const unsigned long searchStart);
+		bool contains(const VertexFormatEntry entry,const unsigned long searchStart) const;
+		bool contains(const VertexFormatEntry entry,const ovis_uint32 semantic,const unsigned long searchStart) const;
 
 		unsigned long stride() const;
 

@@ -8,11 +8,14 @@
 namespace ovis {
 
 namespace video {
-	Scene* generateTestscene(Renderer &rRenderer);
+	Scene* generateTestscene(Renderer &rRenderer,Colorscale *pColorscale);
 };
 
 	MainGLWidget::MainGLWidget(QWidget *pParent):QGLWidget(pParent),m_pOGLRenderer(0),m_pScene(0)
 	{
+		m_Colorscale.addColor(0.0f,0x000000FF); // red
+		m_Colorscale.addColor(0.5f,0x0000FFFF); // yellow
+		m_Colorscale.addColor(1.0f,0x0000FF00); // green
 	}
 
 	MainGLWidget::~MainGLWidget()
@@ -26,9 +29,9 @@ namespace video {
 	void MainGLWidget::initializeGL()
 	{
 		m_pOGLRenderer=new opengldrv::OGLRenderer(width(),height());
-		m_pTestscene=generateTestscene(*m_pOGLRenderer);
+		m_pTestscene=generateTestscene(*m_pOGLRenderer,&m_Colorscale);
 		m_pScene=m_pTestscene;
-		
+
 		m_Camera.viewmatrix().m_43=m_Position.z()=3;
 		m_Camera.projmatrix().perspective(
 			3.1415926535f*0.5f,

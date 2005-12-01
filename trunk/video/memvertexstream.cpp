@@ -149,7 +149,7 @@ namespace video {
 	void MemVertexstream::diffuseColor(const ovis_uint32 vtxindex,const ovis_uint8 a,const ovis_uint8 r,const ovis_uint8 g,const ovis_uint8 b)
 	{
 		ovis_uint8 *pPtr=(ovis_uint8*)(m_Pointers.m_pDiffuseColor)+m_Format.stride()*vtxindex;
-		*((ovis_uint32*)pPtr)=(((ovis_uint32)a)<<24)|(((ovis_uint32)r)<<16)|(((ovis_uint32)g)<<8)|((ovis_uint32)b);
+		*((ovis_uint32*)pPtr)=(((ovis_uint32)a)<<24)|(((ovis_uint32)b)<<16)|(((ovis_uint32)g)<<8)|((ovis_uint32)r);
 	}
 
 	void MemVertexstream::diffuseColor(const ovis_uint32 vtxindex,const ovis_uint32 color)
@@ -161,7 +161,7 @@ namespace video {
 	void MemVertexstream::specularColor(const ovis_uint32 vtxindex,const ovis_uint8 a,const ovis_uint8 r,const ovis_uint8 g,const ovis_uint8 b)
 	{
 		ovis_uint8 *pPtr=(ovis_uint8*)(m_Pointers.m_pSpecularColor)+m_Format.stride()*vtxindex;
-		*((ovis_uint32*)pPtr)=(((ovis_uint32)a)<<24)|(((ovis_uint32)r)<<16)|(((ovis_uint32)g)<<8)|((ovis_uint32)b);
+		*((ovis_uint32*)pPtr)=(((ovis_uint32)a)<<24)|(((ovis_uint32)b)<<16)|(((ovis_uint32)g)<<8)|((ovis_uint32)r);
 	}
 
 	void MemVertexstream::specularColor(const ovis_uint32 vtxindex,const ovis_uint32 color)

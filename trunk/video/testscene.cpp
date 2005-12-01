@@ -5,20 +5,21 @@
 namespace ovis {
 namespace video {
 
-	Scene* generateTestscene(Renderer &rRenderer)
+	Scene* generateTestscene(Renderer &rRenderer,Colorscale *pColorscale)
 	{
 		const float innerradius=1.4f;
 		const float outerradius=0.5f;
-		const unsigned long tesselation=30;
+		const unsigned long tesselation=60;
 
 		Scene *pScene=new video::Scene(rRenderer);
+		if (pColorscale!=0) pScene->colorscale(*pColorscale);
 
 		unsigned long numVertices=(tesselation+1)*(tesselation+1);
 		unsigned long numIndices=2*tesselation*tesselation*3;
 
 		Vertexformat vf;
 		vf.addEntry(VertexFormatEntry_Position,VertexFormatSemantic_Position);
-		vf.addEntry(VertexFormatEntry_Diffuse,VertexFormatSemantic_None);
+		vf.addEntry(VertexFormatEntry_Texcoord1D,VertexFormatSemantic_Factor);
 		vf.addEntry(VertexFormatEntry_Normal,VertexFormatSemantic_Normal);
 
 		pScene->allocGeometryStreams(vf,numVertices,numIndices);
@@ -44,8 +45,8 @@ namespace video {
 					outerradius*sinP
 				);
 
-//				v.texcoord2D(0,2.0f*tpos,ppos);
-				v.diffuseColor(1,rand()&255,0,rand()&255);
+				float f=(float)(rand())/(float)RAND_MAX;
+				v.texcoord1D(0,f*f*f);
 
 				math::Vector3f nn(cosT*cosP,sinT*cosP,sinP);
 

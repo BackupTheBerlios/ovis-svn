@@ -68,7 +68,7 @@ namespace video {
 		return m_Stride;
 	}
 
-	bool Vertexformat::contains(const VertexFormatEntry entry,const unsigned long searchStart)
+	bool Vertexformat::contains(const VertexFormatEntry entry,const unsigned long searchStart) const
 	{
 		if (searchStart>=m_pVertexFormat->size()) return false;
 
@@ -76,6 +76,20 @@ namespace video {
 		itentry!=m_pVertexFormat->end();++itentry) {
 			VertexFormatEntry candidate=(*itentry).m_Type;
 			if (candidate==entry) return true;
+		}
+		
+		return false;
+	}
+
+	bool Vertexformat::contains(const VertexFormatEntry entry,const ovis_uint32 semantic,const unsigned long searchStart) const
+	{
+		if (searchStart>=m_pVertexFormat->size()) return false;
+
+		for (std::vector<Entry>::iterator itentry=m_pVertexFormat->begin()+searchStart;
+		itentry!=m_pVertexFormat->end();++itentry) {
+			VertexFormatEntry candidatetype=(*itentry).m_Type;
+			ovis_uint32 candidatesemantic=(*itentry).m_Semantic;
+			if ((candidatetype==entry) && (candidatesemantic==semantic)) return true;
 		}
 		
 		return false;
