@@ -45,7 +45,7 @@ namespace video {
 				);
 
 //				v.texcoord2D(0,2.0f*tpos,ppos);
-				v.diffuseColor(1,rand()&255,rand()&255,rand()&255);
+				v.diffuseColor(1,rand()&255,0,rand()&255);
 
 				math::Vector3f nn(cosT*cosP,sinT*cosP,sinP);
 
@@ -71,6 +71,9 @@ namespace video {
 			}
 		}
 
+		for (ovis_uint32 attridx=0;attridx<pScene->attributebuffer().attributeAmount();++attridx) {
+			pScene->attributebuffer()[attridx]=MATERIAL_VERTEXCOLOR;
+		}
 
 		pScene->memIndexstream().unmap();
 

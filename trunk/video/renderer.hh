@@ -5,6 +5,7 @@
 #include "../base/basememobj.hh"
 #include "../base/numericarrays.hh"
 
+#include "coreenums.hh"
 #include "indexstream.hh"
 #include "vertexstream.hh"
 

@@ -26,6 +26,7 @@ caps.cpp
 channeldatatype.cpp
 indexiterator.cpp
 indexstream.cpp
+material.cpp
 memindexstream.cpp
 memvertexstream.cpp
 pixelformat.cpp

@@ -19,7 +19,7 @@ namespace opengldrv {
 		initializeExtensions();
 
 		glViewport(0,0,(GLint)width,(GLint)height);
-		glDepthFunc(GL_LEQUAL);
+		glDepthFunc(GL_LESS);
 
 		glEnable(GL_TEXTURE_2D);
 		glDisable(GL_LIGHTING);
@@ -29,7 +29,7 @@ namespace opengldrv {
 		m_Displaywidth=width;
 		m_Displayheight=height;
 
-		drawingmode(video::Drawingmode_SmoothShaded);
+		drawingmode(video::Drawingmode_SmoothShadedAndWireframe);
 
 
 
@@ -62,19 +62,36 @@ namespace opengldrv {
 		glDisable(GL_LIGHTING);
 		glDisable(GL_BLEND);
 
+		glDepthMask(GL_TRUE);
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
 
-		glDepthMask(GL_TRUE);
+		glPolygonOffset(0,0);
 
-		drawIndexedPrimitives(video::Primitives_Triangles,*(scene.vertexstream()),*(scene.indexstream()),
-			0,scene.indexstream()->capacity()/3);
+		for (ovis_uint32 entrynr=0;entrynr<scene.attributetable().numEntries();++entrynr) {
+			const video::Attributetableentry *pEntry=scene.attributetable().entry(entrynr);
+			if (pEntry==0) continue;
+
+			if (pEntry->m_Faceattribute!=video::MATERIAL_VERTEXCOLOR) {
+				
+			}
+
+			drawIndexedPrimitives(
+				video::Primitives_Triangles,
+				*(scene.vertexstream()),
+				*(scene.indexstream()),
+				pEntry->m_Startface*3,
+				pEntry->m_Faceamount);
+		}
+
 
 		if ((m_Drawingmode==video::Drawingmode_FlatShadedAndWireframe) || (m_Drawingmode==video::Drawingmode_SmoothShadedAndWireframe)) {
 			video::Drawingmode d=m_Drawingmode;
 			drawingmode(video::Drawingmode_Wireframe);
 
-			glDepthMask(GL_FALSE);
+			glEnable(GL_POLYGON_OFFSET_LINE);
+			glPolygonOffset(-1,-1);
+			glColor3f(0,0,0);
 
 			drawIndexedPrimitives(video::Primitives_Triangles,*(scene.vertexstream()),*(scene.indexstream()),
 				0,scene.indexstream()->capacity()/3);
@@ -146,6 +163,8 @@ namespace opengldrv {
 				glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 				break;
 		};
+
+		m_Drawingmode=mode;
 	}
 
 	video::Drawingmode OGLRenderer::drawingmode() const
@@ -193,6 +212,9 @@ namespace opengldrv {
 
 		vertexstream.bind();
 		indexstream.bind();
+
+		if (m_Drawingmode==video::Drawingmode_Wireframe)
+			glDisableClientState(GL_COLOR_ARRAY);
 
 		glDrawElements(ptype,numElements*vtxfactor,
 			(indexstream.indexformat()==video::Indexformat_16bit) ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT,

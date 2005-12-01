@@ -1,12 +1,23 @@
+#include <algorithm>
 #include <assert.h>
+#include <vector>
 #include "coreenums.hh"
 #include "scene.hh"
 
 namespace ovis {
 namespace video {
 
+
+
+	struct Scene::Materiallist
+	{
+		std::vector< Material* > m_Materials;
+	};
+
+
+
 	Scene::Scene(Renderer &rRenderer):m_pMemIndexstream(0),m_pMemVertexstream(0),m_pIndexstream(0),m_pVertexstream(0),
-		m_pRenderer(&rRenderer),m_pCamera(0)
+		m_pRenderer(&rRenderer),m_pCamera(0),m_pMateriallist(new Materiallist)
 	{
 	}
 
@@ -16,6 +27,10 @@ namespace video {
 		if (m_pVertexstream) delete m_pVertexstream;
 		if (m_pMemIndexstream) delete m_pMemIndexstream;
 		if (m_pMemVertexstream) delete m_pMemVertexstream;
+
+		std::vector< Material* >::iterator itmat=m_pMateriallist->m_Materials.begin();
+		for (;itmat!=m_pMateriallist->m_Materials.end();++itmat) delete (*itmat);
+		delete m_pMateriallist;
 	}
 
 
@@ -28,6 +43,8 @@ namespace video {
 
 		m_pMemIndexstream=new MemIndexstream(numIndices);
 		m_pMemVertexstream=new MemVertexstream(format,numVertices);
+
+		m_Attributebuffer.attributeAmount(numIndices/3);
 	}
 
 
@@ -51,6 +68,27 @@ namespace video {
 	{
 		return *m_pMemVertexstream;
 	}
+
+	const Attributebuffer& Scene::attributebuffer() const
+	{
+		return m_Attributebuffer;
+	}
+
+	Attributebuffer& Scene::attributebuffer()
+	{
+		return m_Attributebuffer;
+	}
+
+	const Attributetable& Scene::attributetable() const
+	{
+		return m_Attributetable;
+	}
+
+	Attributetable& Scene::attributetable()
+	{
+		return m_Attributetable;
+	}
+
 
 
 	const Indexstream* Scene::indexstream() const
@@ -95,7 +133,40 @@ namespace video {
 		m_pCamera=&rCamera;
 	}
 
-	
+
+
+	void Scene::addMaterial(const Material& m)
+	{
+		Material *pM=new Material(m);
+		m_pMateriallist->m_Materials.push_back(pM);
+	}
+
+	void Scene::removeMaterial(const Material* m)
+	{
+		std::vector< Material* >::iterator itmat=
+			std::find(m_pMateriallist->m_Materials.begin(),m_pMateriallist->m_Materials.end(),m);
+
+		delete (*itmat);
+		m_pMateriallist->m_Materials.erase(itmat);
+	}
+
+	unsigned long Scene::numMaterials() const
+	{
+		return (unsigned long)(m_pMateriallist->m_Materials.size());
+	}
+
+	Material* Scene::material(const unsigned long index)
+	{
+		return (index<numMaterials()) ? m_pMateriallist->m_Materials[index] : 0;
+	}
+
+	const Material* Scene::material(const unsigned long index) const
+	{
+		return (index<numMaterials()) ? m_pMateriallist->m_Materials[index] : 0;
+	}
+
+
+
 
 
 	bool Scene::isValid() const
@@ -122,6 +193,9 @@ namespace video {
 		if (m_pVertexstream) delete m_pVertexstream; m_pVertexstream=0;
 
 		if ((m_pMemIndexstream->capacity()==0) || (m_pMemVertexstream->capacity()==0)) return;
+
+		m_Attributebuffer.reorganize(m_pMemIndexstream);
+		m_Attributetable.recalculate(m_Attributebuffer);
 
 		m_pIndexstream=m_pRenderer->createIndexstream(
 			m_pMemIndexstream->capacity(),
