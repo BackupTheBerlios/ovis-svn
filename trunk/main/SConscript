@@ -18,6 +18,7 @@ obj.source="""
 main.cpp
 mainwindow.cpp
 mainglwidget.cpp
+rotationcube.cpp
 """
 obj.cxxflags='-DQT_THREAD_SUPPORT'
 obj.uselib='QT QTCORE QTOPENGL'

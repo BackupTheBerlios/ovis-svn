@@ -57,7 +57,19 @@ namespace video {
 	{
 		m_pOGLRenderer->clear(video::Clear_Colorbuffer|video::Clear_Depthbuffer,base::Float4(0,0.4f,0.4f,0.4f));
 
+		unsigned int w=width(),h=height();
+		unsigned int wr=w/20,hr=h/20;
+
+		glViewport(0,0,w,h);
 		if (m_pScene) m_pScene->render();
+
+
+		if ((wr>10) && (hr>10)) {
+			m_pOGLRenderer->clear(video::Clear_Depthbuffer,base::Float4(0,0.4f,0.4f,0.4f));
+
+			glViewport(w-wr-10,h-hr-10,wr,hr);
+			m_RotCube.render(m_Camera);
+		}
 
 		glDisable(GL_LIGHTING);
 		/*QString fpstext; fpstext.setNum(m_FPS.fps()); fpstext+=" fps";

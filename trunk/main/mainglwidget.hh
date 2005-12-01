@@ -7,6 +7,7 @@
 #include "../ogl/oglrenderer.hh"
 #include "../video/camera.hh"
 #include "../video/scene.hh"
+#include "rotationcube.hh"
 
 namespace ovis {
 
@@ -32,6 +33,7 @@ namespace ovis {
 		math::Matrix4f m_OldViewmatrix;
 		float m_ViewDistance;
 		video::Camera m_Camera;
+		RotationCube m_RotCube;
 	};
 
 }

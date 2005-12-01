@@ -21,9 +21,6 @@ namespace opengldrv {
 		glViewport(0,0,(GLint)width,(GLint)height);
 		glDepthFunc(GL_LESS);
 
-		glEnable(GL_TEXTURE_2D);
-		glDisable(GL_LIGHTING);
-
 		glFrontFace(GL_CW);
 
 		m_Displaywidth=width;
@@ -58,6 +55,9 @@ namespace opengldrv {
 		glMatrixMode(GL_MODELVIEW);
 		pF=scene.camera()->viewmatrix();
 		glLoadMatrixf(pF);
+
+		glEnable(GL_TEXTURE_2D);
+		glDisable(GL_LIGHTING);
 
 		glDisable(GL_LIGHTING);
 		glDisable(GL_BLEND);
