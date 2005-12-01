@@ -112,7 +112,7 @@ namespace video {
 
 	void MainGLWidget::wheelEvent(QWheelEvent *e)
 	{
-		m_Position.z()+=0.05f*((float)e->delta())/120.0f;
+		m_Position.z()+=0.05f*((float)e->delta())/120.0f; 
 		if (m_Position.z()<1.0f) m_Position.z()=1.0f;
 		//m_Camera.viewmatrix().m_43=m_ViewDistance;
 
