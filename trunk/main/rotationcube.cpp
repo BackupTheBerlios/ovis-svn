@@ -37,12 +37,10 @@ namespace ovis {
 
 
 
-		{ // identity matrix to disable light transformation
-			math::Matrix4f m;
-			glMatrixMode(GL_MODELVIEW);
-			pF=m;
-			glLoadMatrixf(pF);
-		}
+		// identity matrix to disable light transformation
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+
 
 		float lpos[3]={-30,-3,-30};
 		glLightfv(0,GL_POSITION,lpos);
@@ -53,7 +51,9 @@ namespace ovis {
 
 
 		glMatrixMode(GL_PROJECTION);
-		pF=camera.projmatrix();
+		math::Matrix4f p;
+		p.orthogonal(4,4,1,100);
+		pF=p;
 		glLoadMatrixf(pF);
 
 		glMatrixMode(GL_MODELVIEW);

@@ -4,6 +4,7 @@
 #include <QGLWidget>
 #include "../base/fpscalc.hh"
 #include "../math/arcball.hh"
+#include "../math/quaternion.hh"
 #include "../ogl/oglrenderer.hh"
 #include "../video/camera.hh"
 #include "../video/scene.hh"
@@ -22,6 +23,8 @@ namespace ovis {
 		void resizeGL(int w,int h);
 		void paintGL();
 
+		void calculateViewmatrix();
+
 		void mousePressEvent(QMouseEvent *e);
 		void mouseMoveEvent(QMouseEvent *e);
 		void wheelEvent(QWheelEvent *e);
@@ -30,8 +33,8 @@ namespace ovis {
 		base::Fpscalc m_FPS;
 		video::Scene *m_pScene,*m_pTestscene;
 		math::Arcball m_Arcball;
-		math::Matrix4f m_OldViewmatrix;
-		float m_ViewDistance;
+		math::Quaternion m_Rotation,m_OldRotation;
+		math::Vector3f m_Position;
 		video::Camera m_Camera;
 		RotationCube m_RotCube;
 	};

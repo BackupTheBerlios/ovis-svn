@@ -11,7 +11,7 @@ namespace video {
 	Scene* generateTestscene(Renderer &rRenderer);
 };
 
-	MainGLWidget::MainGLWidget(QWidget *pParent):QGLWidget(pParent),m_pOGLRenderer(0),m_pScene(0),m_ViewDistance(3)
+	MainGLWidget::MainGLWidget(QWidget *pParent):QGLWidget(pParent),m_pOGLRenderer(0),m_pScene(0)
 	{
 	}
 
@@ -28,12 +28,8 @@ namespace video {
 		m_pOGLRenderer=new opengldrv::OGLRenderer(width(),height());
 		m_pTestscene=generateTestscene(*m_pOGLRenderer);
 		m_pScene=m_pTestscene;
-
-		//m_pScene->camera().viewmatrix().translate(0,0,3);
-		//math::Quaternion quat;
-		//quat.fromRotAxisAndAngle(math::Vector3f(1,0,0),1);
-		//m_pScene->camera().viewmatrix().fromQuaternion(quat);
-		m_Camera.viewmatrix().m_43=m_ViewDistance;
+		
+		m_Camera.viewmatrix().m_43=m_Position.z()=3;
 		m_Camera.projmatrix().perspective(
 			3.1415926535f*0.5f,
 			(float)(width())/(float)(height()),
@@ -58,16 +54,16 @@ namespace video {
 		m_pOGLRenderer->clear(video::Clear_Colorbuffer|video::Clear_Depthbuffer,base::Float4(0,0.4f,0.4f,0.4f));
 
 		unsigned int w=width(),h=height();
-		unsigned int wr=w/20,hr=h/20;
+		unsigned int rside=((w<h) ? w : h)/20;
 
 		glViewport(0,0,w,h);
 		if (m_pScene) m_pScene->render();
 
 
-		if ((wr>10) && (hr>10)) {
+		if (rside>10) {
 			m_pOGLRenderer->clear(video::Clear_Depthbuffer,base::Float4(0,0.4f,0.4f,0.4f));
 
-			glViewport(w-wr-10,h-hr-10,wr,hr);
+			glViewport(w-rside-10,h-rside-10,rside,rside);
 			m_RotCube.render(m_Camera);
 		}
 
@@ -85,9 +81,11 @@ namespace video {
 
 		m_Arcball.click(xx,-yy);
 
-		m_OldViewmatrix=m_Camera.viewmatrix();
-		m_OldViewmatrix.m_43=0;
+//		m_OldViewmatrix=m_Camera.viewmatrix();
+//		m_OldViewmatrix.m_43=0;
+		m_OldRotation=m_Rotation;
 
+		calculateViewmatrix();
 		updateGL();
 	}
 
@@ -98,24 +96,37 @@ namespace video {
 		yy=((float)(e->y()))/((float)(height())*0.5f)-1.0f;
 
 		math::Quaternion quat;
-		math::Matrix4f m;
+		//math::Matrix4f m;
 		
 		m_Arcball.drag(xx,-yy,&quat);
-		m.fromQuaternion(quat);
+		//m.fromQuaternion(quat);
 
-		m_Camera.viewmatrix()=m_OldViewmatrix*m;
-		m_Camera.viewmatrix().m_43=m_ViewDistance;
+		m_Rotation=(m_OldRotation*quat).normalized();
 
+		//m_Camera.viewmatrix()=m_OldViewmatrix*m;
+		//m_Camera.viewmatrix().m_43=m_ViewDistance;
+
+		calculateViewmatrix();
 		updateGL();
 	}
 
 	void MainGLWidget::wheelEvent(QWheelEvent *e)
 	{
-		m_ViewDistance+=0.05f*((float)e->delta())/120.0f;
-		if (m_ViewDistance<1.0f) m_ViewDistance=1.0f;
-		m_Camera.viewmatrix().m_43=m_ViewDistance;
+		m_Position.z()+=0.05f*((float)e->delta())/120.0f;
+		if (m_Position.z()<1.0f) m_Position.z()=1.0f;
+		//m_Camera.viewmatrix().m_43=m_ViewDistance;
 
+		calculateViewmatrix();
 		updateGL();
+	}
+
+	void MainGLWidget::calculateViewmatrix()
+	{
+		m_Camera.viewmatrix().loadIdentity();
+		m_Camera.viewmatrix().fromQuaternion(m_Rotation);
+		m_Camera.viewmatrix().m_41=m_Position.x();
+		m_Camera.viewmatrix().m_42=m_Position.y();
+		m_Camera.viewmatrix().m_43=m_Position.z();
 	}
 
 }

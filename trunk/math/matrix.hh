@@ -528,6 +528,18 @@ namespace math {
 			return dst;
 		}
 
+		//! Calculates an orthogonal projection matrix.
+		inline void orthogonal(const float width,const float height,
+			const float znear,const float zfar)
+		{
+			loadIdentity();
+			
+			m_11=2.0f/width;
+			m_22=2.0f/height;
+			m_33=1.0f/(znear-zfar);
+			m_43=znear/(znear-zfar);
+		}
+
 		//! Calculates a perspective projection matrix.
 		/**
 		* @param left Position of the left frustum plane
