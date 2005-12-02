@@ -1,4 +1,5 @@
-#include "attributebuffer.hh"	
+#include <assert.h>
+#include "attributebuffer.hh"
 #include "indexiterator.hh"	
 #include "indexstream.hh"
 
@@ -66,6 +67,7 @@ namespace video {
 
 		for (attridx=0;attridx<attributeAmount();++attridx) {
 			ovis_uint32 faceidx=permutation[attridx];
+			assert(faceidx<permutation.attributeAmount());
 
 			for (ovis_uint32 i=0;i<3;++i) {
 				iiterator.index(indices[faceidx*3+i]);
