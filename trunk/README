@@ -38,3 +38,15 @@ svn checkout svn+ssh://svn.berlios.de/svnroot/repos/ovis/trunk ovis
 
 Don't forget the "ovis" parameter at the end of the line, or else svn
 will checkout into a directory called "trunk" and not "ovis".
+
+To build, use bksys/scons. Some distros do not define the QTDIR environment variable.
+In this case, find out where the QT dir is (for example, in Debian/Ubuntu it is in /usr/share/qt4)
+and type: QTDIR=/usr/share/qt4 bksys/scons
+
+Cleaning up: QTDIR=/usr/share/qt4 bksys/scons -c
+
+
+In gentoo, type:
+export QTDIR=/usr/lib/qt4/
+bksys/scons configure qtlibs=/usr/lib/qt4/ qtincludes=/usr/include/qt4/
+

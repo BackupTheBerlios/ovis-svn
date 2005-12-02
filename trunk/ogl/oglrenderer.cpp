@@ -227,6 +227,10 @@ namespace opengldrv {
 #endif
 	}
 
+
+//#define IONGL_HAVE_GLXGETPROCADDRESS
+
+
 	void *OGLRenderer::getGLExtensionProcAddress(const char *name) const
 	{
 		void *pProc;

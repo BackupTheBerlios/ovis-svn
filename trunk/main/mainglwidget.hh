@@ -25,6 +25,9 @@ namespace ovis {
 		void paintGL();
 
 		void calculateViewmatrix();
+		
+		void perspective(const int w,const int h);
+		void orthogonal(const int w,const int h);
 
 		void mousePressEvent(QMouseEvent *e);
 		void mouseMoveEvent(QMouseEvent *e);

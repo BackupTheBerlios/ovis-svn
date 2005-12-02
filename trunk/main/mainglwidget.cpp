@@ -13,9 +13,10 @@ namespace video {
 
 	MainGLWidget::MainGLWidget(QWidget *pParent):QGLWidget(pParent),m_pOGLRenderer(0),m_pScene(0)
 	{
-		m_Colorscale.addColor(0.0f,0x000000FF); // red
-		m_Colorscale.addColor(0.5f,0x0000FFFF); // yellow
-		m_Colorscale.addColor(1.0f,0x0000FF00); // green
+		m_Colorscale.addColor(0.00f,0x00FF0000); // red
+		m_Colorscale.addColor(0.33f,0x0000FF00); // green
+		m_Colorscale.addColor(0.66f,0x0000FFFF); // yellow
+		m_Colorscale.addColor(1.00f,0x000000FF); // red
 	}
 
 	MainGLWidget::~MainGLWidget()
@@ -25,6 +26,20 @@ namespace video {
 		if (m_pOGLRenderer) delete m_pOGLRenderer;
 	}
 
+	void MainGLWidget::perspective(const int w,const int h)
+	{
+		m_Camera.projmatrix().perspective(
+			3.1415926535f*0.5f,
+			((float)w/(float)h),
+			1,100);
+	}
+
+	void MainGLWidget::orthogonal(const int w,const int h)
+	{
+		m_Camera.projmatrix().orthogonal(
+			((float)w/(float)h)*4,4,
+			1,100);
+	}
 
 	void MainGLWidget::initializeGL()
 	{
@@ -33,10 +48,6 @@ namespace video {
 		m_pScene=m_pTestscene;
 
 		m_Camera.viewmatrix().m_43=m_Position.z()=3;
-		m_Camera.projmatrix().perspective(
-			3.1415926535f*0.5f,
-			(float)(width())/(float)(height()),
-			1,100);
 
 		m_pScene->camera(m_Camera);
 
@@ -46,10 +57,8 @@ namespace video {
 	void MainGLWidget::resizeGL(int w,int h)
 	{
 		glViewport(0,0,w,h);
-		m_Camera.projmatrix().perspective(
-			3.1415926535f*0.5f,
-			((float)w/(float)h),
-			1,100);
+		perspective(w,h);
+		//orthogonal(w,h);
 	}
 
 	void MainGLWidget::paintGL()
