@@ -1,12 +1,13 @@
 #ifndef OVIS_VIDEO_COLORSCALE_HH_INCLUDED
 #define OVIS_VIDEO_COLORSCALE_HH_INCLUDED
 
+#include "../base/dll.hh"
 #include "../base/itypes.hh"
 
 namespace ovis {
 namespace video {
 
-	class Colorscale
+	class OVIS_API Colorscale
 	{
 	public:
 		Colorscale();

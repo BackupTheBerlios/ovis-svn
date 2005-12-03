@@ -3,7 +3,7 @@
 
 #if defined(WIN32) && !defined(ION_STATICLIB)
 
-#ifdef ION_EXPORTS
+#ifdef OVIS_EXPORTS
 #define OVIS_API __declspec(dllexport)
 #else
 #define OVIS_API __declspec(dllimport)

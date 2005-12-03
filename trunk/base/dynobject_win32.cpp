@@ -26,7 +26,7 @@ namespace base {
 	void* Dynobject::function(const char *funcname)
 	{
 		if (!m_pData) return 0;
-		else return GetProcAddress(m_pData->m_DLLInstance,funcname);
+		else return (void*)(GetProcAddress(m_pData->m_DLLInstance,funcname));
 	}
 
 	bool Dynobject::isValid() const

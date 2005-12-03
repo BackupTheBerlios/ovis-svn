@@ -2,13 +2,14 @@
 #include <QWheelEvent>
 
 #include "mainglwidget.hh"
+#include "../base/dll.hh"
 #include "../math/quaternion.hh"
 #include "../video/coreenums.hh"
 
 namespace ovis {
 
 namespace video {
-	Scene* generateTestscene(Renderer &rRenderer,Colorscale *pColorscale);
+	OVIS_API Scene* generateTestscene(Renderer &rRenderer,Colorscale *pColorscale);
 };
 
 	MainGLWidget::MainGLWidget(QWidget *pParent):QGLWidget(pParent),m_pOGLRenderer(0),m_pScene(0)

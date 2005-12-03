@@ -5,7 +5,7 @@
 namespace ovis {
 namespace video {
 
-	Scene* generateTestscene(Renderer &rRenderer,Colorscale *pColorscale)
+	OVIS_API Scene* generateTestscene(Renderer &rRenderer,Colorscale *pColorscale)
 	{
 		const float innerradius=1.4f;
 		const float outerradius=0.5f;

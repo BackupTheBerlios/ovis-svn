@@ -39,7 +39,7 @@ namespace video {
 	* To include factors, use a 1D texcoord (VertexFormatEntry_Texcoord1D) with the VertexFormatSemantic_Factor semantic.
 	*/
 
-	class Scene:public base::BaseMemObj
+	class OVIS_API Scene:public base::BaseMemObj
 	{
 	public:
 		Scene(Renderer &rRenderer);
