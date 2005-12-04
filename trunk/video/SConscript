@@ -37,7 +37,7 @@ vertexformat.cpp
 vertexiterator.cpp
 vertexstream.cpp
 """
-obj.cxxflags='-ggdb'
+obj.cxxflags='-ggdb -DOVIS_EXPORTS'
 obj.uselib=''
 obj.libs='ovisbase ovismath'
 obj.includes='.'

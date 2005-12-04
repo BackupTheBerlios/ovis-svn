@@ -29,7 +29,7 @@ rectangle.cpp
 spherevolume.cpp
 vectors.cpp
 """
-#obj.cxxflags='-DQT_THREAD_SUPPORT'
+obj.cxxflags='-DOVIS_EXPORTS'
 obj.uselib=''
 obj.libs='ovisbase m'
 obj.includes='.'

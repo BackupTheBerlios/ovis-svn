@@ -32,7 +32,7 @@ public:
 	GL_ARRAY_BUFFER_ARB : array buffer storing vertices. The equivalent of a Direct3D(tm) vertex buffer.\n
 	GL_ELEMENT_ARRAY_BUFFER_ARB = element array buffer storing indices. The equivalent of a Direct3D.(tm) index buffer
 	*/
-	BufferObject(const GLenum bufferType):m_BufferID(0),m_BufferType(bufferType),m_pMappedPointer(0) { glGenBuffersARB(1,&m_BufferID); }
+	BufferObject(const GLenum bufferType);
 
 	inline static void disableVBO(const GLenum bufferType) { glBindBufferARB(bufferType,0); }
 	

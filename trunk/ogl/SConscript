@@ -25,7 +25,7 @@ oglrenderer.cpp
 oglvertexstream.cpp
 ovisgl.cpp
 """
-#obj.cxxflags='-DQT_THREAD_SUPPORT'
+obj.cxxflags='-DOVIS_EXPORTS'
 obj.uselib=''
 obj.libs='GL ovisbase ovismath ovisvideo'
 obj.includes='.'

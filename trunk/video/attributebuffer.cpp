@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <fstream>
 #include "attributebuffer.hh"
 #include "indexiterator.hh"	
 #include "indexstream.hh"
@@ -43,7 +44,16 @@ namespace video {
 		}
 
 		delete [] working;
-		delete [] temppermutation;
+			delete [] temppermutation;
+	}
+	
+	void printbuf(const Attributebuffer& buf,const char *name)
+	{
+		std::ofstream f(name);
+         
+		for (ovis_uint32 attridx=0;attridx<buf.attributeAmount();++attridx) {
+			f << "#0: " << buf[attridx] << "\n";
+		}
 	}
 
 	void Attributebuffer::reorganize(Indexstream* pIndexstream)
@@ -52,8 +62,12 @@ namespace video {
 		permutation.attributeAmount(attributeAmount());
 		ovis_uint32 attridx;
 		for (attridx=0;attridx<attributeAmount();++attridx) permutation[attridx]=attridx;
+		
+		//printbuf(permutation,"permutation1.txt");
 
 		mergesort(*this,permutation,0,attributeAmount());
+
+		//printbuf(permutation,"permutation2.txt");
 
 		if (!pIndexstream) return;
 		pIndexstream->map(0);

@@ -208,7 +208,8 @@ namespace video {
 
 
 
-		m_Attributebuffer.reorganize(m_pMemIndexstream);
+		// BUG: due to a strange GCC 3.4 bug this will be disabled for now
+		//m_Attributebuffer.reorganize(m_pMemIndexstream);
 		m_Attributetable.recalculate(m_Attributebuffer);
 
 

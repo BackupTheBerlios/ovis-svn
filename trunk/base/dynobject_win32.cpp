@@ -12,7 +12,7 @@ namespace base {
 	Dynobject::Dynobject(const char *name):m_pData(0)
 	{
 		m_pData=new Dynobjdata;
-		m_pData->m_DLLInstance=LoadLibrary(name);
+		m_pData->m_DLLInstance=LoadLibraryA(name);
 	}
 
 	Dynobject::~Dynobject()

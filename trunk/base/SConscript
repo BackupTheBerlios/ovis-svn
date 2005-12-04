@@ -22,9 +22,7 @@ obj.target='ovisbase'
 obj.libprefix='../build/lib'
 obj.source="""
 basememobj.cpp
-bz2pkhandler.cpp
 datablock.cpp
-dynobject_unix.cpp
 fpscalc.cpp
 localfile.cpp
 localstreamable.cpp
@@ -39,11 +37,17 @@ streamable.cpp
 string.cpp
 stringlist.cpp
 timer.cpp
-zpkhandler.cpp
 """
-#obj.cxxflags='-DQT_THREAD_SUPPORT'
+
+if env['WINDOWS'] == 1:
+    obj.source+="dynobject_win32.cpp"
+else:
+    obj.source+="dynobject_unix.cpp"
+
+obj.cxxflags='-DOVIS_EXPORTS'
 obj.uselib=''
-obj.libs='dl z bz2'
+#obj.libs='dl z bz2'
+obj.libs='dl'
 obj.includes='.'
 obj.instdir='/usr/local/lib'
 obj.execute()

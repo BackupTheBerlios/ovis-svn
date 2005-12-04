@@ -12,7 +12,7 @@
 namespace ovis {
 namespace opengldrv {
 
-	class OGLRenderer:public video::Renderer
+	class OVIS_API OGLRenderer:public video::Renderer
 	{
 	public:
 		OGLRenderer(const ovis_uint32 width,const ovis_uint32 height);
