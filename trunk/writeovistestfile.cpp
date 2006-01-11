@@ -17,9 +17,9 @@ int main()
 {
 
 	const uint64_t indices[4*3]={
-		0,1,2,
-		0,2,3,
-		0,3,1,
+		0,2,1,
+		0,3,2,
+		0,1,3,
 		1,2,3
 	};
 	const uint32_t faceattributes[4]={0xFFFFFFFF,0,0,0};

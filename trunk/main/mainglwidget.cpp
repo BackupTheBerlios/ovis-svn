@@ -5,6 +5,7 @@
 #include "../base/dll.hh"
 #include "../math/quaternion.hh"
 #include "../video/coreenums.hh"
+#include "../video/loadscenefromfile.hh"
 
 namespace ovis {
 
@@ -46,7 +47,8 @@ namespace video {
 	{
 		m_pOGLRenderer=new opengldrv::OGLRenderer(width(),height());
 		m_pTestscene=generateTestscene(*m_pOGLRenderer,&m_Colorscale);
-		m_pScene=m_pTestscene;
+		//m_pScene=m_pTestscene;
+		m_pScene=video::loadSceneFromFile("../blaovismesh",*m_pOGLRenderer);
 
 		m_Camera.viewmatrix().m_43=m_Position.z()=3;
 
