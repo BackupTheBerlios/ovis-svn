@@ -73,7 +73,7 @@ namespace opengldrv {
 			if (pEntry==0) continue;
 
 			if (pEntry->m_Faceattribute!=video::MATERIAL_VERTEXCOLOR) {
-				
+				// TODO:
 			}
 
 			drawIndexedPrimitives(

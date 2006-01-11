@@ -88,7 +88,7 @@ namespace video {
 		* Internally, this calls m_pRenderer->render(*this). However, it is recommended to use this method,
 		* since the index/vertexstreams depend on the renderer. Using this method ensures that
 		* the correct renderer is called. It also makes index/vertexstream changes due to a renderer change
-		* transparent.
+		* transparent. See above for details.
 		*/
 		void render();
 

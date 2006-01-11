@@ -27,6 +27,7 @@ channeldatatype.cpp
 colorscale.cpp
 indexiterator.cpp
 indexstream.cpp
+loadscenefromfile.cpp
 material.cpp
 memindexstream.cpp
 memvertexstream.cpp
