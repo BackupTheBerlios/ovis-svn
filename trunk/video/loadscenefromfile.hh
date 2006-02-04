@@ -8,8 +8,9 @@ namespace video {
 
 	class Renderer;
 	class Scene;
+	class Colorscale;
 	
-	Scene* loadSceneFromFile(const base::String& filename,Renderer &rRenderer);
+	Scene* loadSceneFromFile(const base::String& filename,Renderer &rRenderer,Colorscale *pColorscale);
 
 }	
 }

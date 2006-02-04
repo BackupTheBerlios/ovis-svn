@@ -13,7 +13,7 @@ namespace video {
 	OVIS_API Scene* generateTestscene(Renderer &rRenderer,Colorscale *pColorscale);
 };
 
-	MainGLWidget::MainGLWidget(QWidget *pParent):QGLWidget(pParent),m_pOGLRenderer(0),m_pScene(0)
+	MainGLWidget::MainGLWidget(QWidget *pParent):QGLWidget(pParent),m_pOGLRenderer(0),m_pScene(0),m_pTestscene(0)
 	{
 		m_Colorscale.addColor(0.00f,0x00FF0000); // red
 		m_Colorscale.addColor(0.33f,0x0000FF00); // green
@@ -46,9 +46,9 @@ namespace video {
 	void MainGLWidget::initializeGL()
 	{
 		m_pOGLRenderer=new opengldrv::OGLRenderer(width(),height());
-		m_pTestscene=generateTestscene(*m_pOGLRenderer,&m_Colorscale);
+		//m_pTestscene=generateTestscene(*m_pOGLRenderer,&m_Colorscale);
 		//m_pScene=m_pTestscene;
-		m_pScene=video::loadSceneFromFile("../blaovismesh",*m_pOGLRenderer);
+		m_pScene=video::loadSceneFromFile("../blaovismesh",*m_pOGLRenderer,&m_Colorscale);
 
 		m_Camera.viewmatrix().m_43=m_Position.z()=3;
 
@@ -79,7 +79,7 @@ namespace video {
 			m_pOGLRenderer->clear(video::Clear_Depthbuffer,base::Float4(0,0.4f,0.4f,0.4f));
 
 			glViewport(w-rside-10,h-rside-10,rside,rside);
-			m_RotCube.render(m_Camera);
+		//	m_RotCube.render(m_Camera);
 		}
 
 		glDisable(GL_LIGHTING);

@@ -97,6 +97,7 @@ namespace opengldrv {
 				0,scene.indexstream()->capacity()/3);
 
 			drawingmode(d);
+			glDisable(GL_POLYGON_OFFSET_LINE);
 		}
 	}
 	

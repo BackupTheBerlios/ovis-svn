@@ -17,7 +17,7 @@ namespace video {
 		~Vertex() { if (m_pQuantities!=0) delete [] m_pQuantities; }
 	};*/
 
-	Scene* loadSceneFromFile(const base::String& filename,Renderer &rRenderer)
+	Scene* loadSceneFromFile(const base::String& filename,Renderer &rRenderer,Colorscale *pColorscale)
 	{
 		base::Localfile lf;
 		bool opened=lf.open(filename,"rb");
@@ -42,6 +42,7 @@ namespace video {
 		v.m_pQuantities=new double[numQuantitysets];*/
 		
 		Scene *pScene=new Scene(rRenderer);
+		if (pColorscale!=0) pScene->colorscale(*pColorscale);
 		pScene->allocGeometryStreams(vf,numVertices,numTriangles*3);
 		
 		Vertexiterator vtx(pScene->memVertexstream());
@@ -54,6 +55,7 @@ namespace video {
 			
 			double q;
 			lf >> q;
+			q=(q-minQuantity)/(maxQuantity-minQuantity);
 			vtx.texcoord1D(0,((float)q)); // TODO: change to float quantities & store additional quantities
 			if (numQuantitysets>1) { for (j=1;j<numQuantitysets;++j) lf >> q; /* Temporary. Skips additional quantities.*/ }
 			
@@ -74,9 +76,11 @@ namespace video {
 			
 			lf >> attr; pScene->attributebuffer()[i]=attr;
 		}
-		
+
 		lf.close();
-		
+
+		pScene->initGeometrystreams();
+
 		return pScene;
 	}
 
