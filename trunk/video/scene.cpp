@@ -17,8 +17,8 @@ namespace video {
 
 
 
-	Scene::Scene(Renderer &rRenderer):m_pMemIndexstream(0),m_pMemVertexstream(0),m_pIndexstream(0),m_pVertexstream(0),
-		m_pRenderer(&rRenderer),m_pCamera(0),m_pColorscale(0),m_pMateriallist(new Materiallist)
+	Scene::Scene(Renderer *pRenderer):m_pMemIndexstream(0),m_pMemVertexstream(0),m_pIndexstream(0),m_pVertexstream(0),
+		m_pRenderer(pRenderer),m_pCamera(0),m_pColorscale(0),m_pMateriallist(new Materiallist)
 	{
 	}
 
@@ -198,6 +198,8 @@ namespace video {
 
 	void Scene::initGeometrystreams()
 	{
+		if (!m_pRenderer) return;
+
 		// If one of these is zero, either allocGeometrystreams() hasn't been called or something went wrong
 		assert(m_pMemVertexstream && m_pMemIndexstream);
 

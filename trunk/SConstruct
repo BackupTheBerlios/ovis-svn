@@ -26,7 +26,7 @@ env=configure(config)
 # SCRIPTS FOR BUILDING THE TARGETS
 ###################################################################
 
-env.subdirs('base math video ogl main')
+env.subdirs('base math video ogl ovis')
 
 ###################################################################
 # CONVENIENCE FUNCTIONS TO EMULATE 'make dist' and 'make distclean'

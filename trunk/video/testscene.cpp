@@ -5,13 +5,13 @@
 namespace ovis {
 namespace video {
 
-	OVIS_API Scene* generateTestscene(Renderer &rRenderer,Colorscale *pColorscale)
+	OVIS_API Scene* generateTestscene(Renderer *pRenderer,Colorscale *pColorscale)
 	{
 		const float innerradius=1.4f;
 		const float outerradius=0.5f;
 		const unsigned long tesselation=60;
 
-		Scene *pScene=new video::Scene(rRenderer);
+		Scene *pScene=new video::Scene(pRenderer);
 		if (pColorscale!=0) pScene->colorscale(*pColorscale);
 
 		unsigned long numVertices=(tesselation+1)*(tesselation+1);

@@ -48,7 +48,7 @@ namespace video {
 		m_pOGLRenderer=new opengldrv::OGLRenderer(width(),height());
 		//m_pTestscene=generateTestscene(*m_pOGLRenderer,&m_Colorscale);
 		//m_pScene=m_pTestscene;
-		m_pScene=video::loadSceneFromFile("../blaovismesh",*m_pOGLRenderer,&m_Colorscale);
+		m_pScene=video::loadSceneFromFile("../binaryDataFile.dat",*m_pOGLRenderer,&m_Colorscale);
 
 		m_Camera.viewmatrix().m_43=m_Position.z()=3;
 
@@ -79,7 +79,7 @@ namespace video {
 			m_pOGLRenderer->clear(video::Clear_Depthbuffer,base::Float4(0,0.4f,0.4f,0.4f));
 
 			glViewport(w-rside-10,h-rside-10,rside,rside);
-		//	m_RotCube.render(m_Camera);
+			m_RotCube.render(m_Camera);
 		}
 
 		glDisable(GL_LIGHTING);

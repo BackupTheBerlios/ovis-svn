@@ -1,0 +1,42 @@
+#! /usr/bin/env python
+## This script demonstrates how to build and install
+## a simple kde program having KconfigXT settings
+## with scons
+##
+## Thomas Nagy, 2004, 2005
+
+## This file can be reused freely for any project (see COPYING)
+
+## Use the environment and the tools set in the top-level
+## SConstruct file (set with 'Export') - this is very important
+
+Import( 'env' )
+
+source="""
+renderinstance.cpp
+rotationcube.cpp
+"""
+
+progobj=env.genobj('program', env)
+progobj.target='../build/ovis'
+progobj.source=source+'main.cpp'
+progobj.cxxflags='-DCOMPILE_WITH_SDL_SUPPORT `sdl-config --cflags`'
+progobj.uselib=''
+progobj.libs='ovisbase ovisvideo ovismath ovisopengl'
+progobj.includes=['.']
+progobj.instdir='/usr/local/bin'
+progobj.libpaths=['#build']
+progobj.linkflags='`sdl-config --libs` -Wl,-rpath=.'
+progobj.execute()
+
+shobj=env.genobj('shlib', env)
+shobj.target='../build/ovislib'
+shobj.source=source+'pythonbindings.cpp'
+shobj.cxxflags='-DCOMPILE_WITH_SDL_SUPPORT -DBOOST_PYTHON_DYNAMIC_LIB `sdl-config --cflags`'
+shobj.uselib=''
+shobj.libs='ovisbase ovisvideo ovismath ovisopengl boost_python'
+shobj.includes=['.','/usr/include/python2.4']
+shobj.instdir='/usr/local/bin'
+shobj.libpaths=['#build','/usr/lib/python2.4']
+shobj.linkflags='`sdl-config --libs` -Wl,-rpath=. -Wl,-rpath-link,.  -Wl,-soname,libtestlib'
+shobj.execute()

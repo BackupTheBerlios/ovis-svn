@@ -42,7 +42,7 @@ namespace video {
 	class OVIS_API Scene:public base::BaseMemObj
 	{
 	public:
-		Scene(Renderer &rRenderer);
+		Scene(Renderer *pRenderer);
 		~Scene();
 
 		void allocGeometryStreams(const Vertexformat& format,const ovis_uint32 numVertices,const ovis_uint32 numIndices);

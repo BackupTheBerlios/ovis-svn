@@ -101,9 +101,9 @@ namespace opengldrv {
 		}
 	}
 	
-	void OGLRenderer::resize(const ovis_uint32 width,const ovis_uint32 height)
+	void OGLRenderer::resize(const ovis_uint32 x,const ovis_uint32 y,const ovis_uint32 width,const ovis_uint32 height)
 	{
-		glViewport(0,0,(GLint)width,(GLint)height);
+		glViewport(x,y,(GLint)width,(GLint)height);
 	}
 
 	void OGLRenderer::clear(const ovis_uint32 buffers,const base::Float4& color,const float zvalue,const ovis_uint32 stencilvalue)
@@ -508,7 +508,7 @@ namespace opengldrv {
 }
 }
 
-extern "C"
+/*extern "C"
 #ifdef WIN32
 __declspec( dllexport )
 #endif
@@ -525,5 +525,5 @@ __declspec( dllexport )
 const char* rendererDescription()
 {
 	return "OpenGL renderer v0.5 build 2005-11-07 19:48";
-}
+}*/
 

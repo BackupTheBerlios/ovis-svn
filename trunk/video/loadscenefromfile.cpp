@@ -1,5 +1,6 @@
 #include "../base/itypes.hh"
 #include "../base/localfile.hh"
+#include "../base/log.hh"
 #include "../video/memindexstream.hh"
 #include "../video/memvertexstream.hh"
 #include "loadscenefromfile.hh"
@@ -35,13 +36,20 @@ namespace video {
 		lf >> numTriangles >> numVertices >> numQuantitysets >> numFaceattributearrays;
 		lf >> minQuantity >> maxQuantity;
 		
+		base::logstream() << "Num triangles:             " << numTriangles << "\n";
+		base::logstream() << "Num vertices:              " << numVertices << "\n";
+		base::logstream() << "Num quantitysets:          " << numQuantitysets << "\n";
+		base::logstream() << "Num face attribute arrays: " << numFaceattributearrays << "\n";
+		base::logstream() << "Min quantity:              " << minQuantity << "\n";
+		base::logstream() << "Max quantity:              " << maxQuantity << "\n";
+		
 		ovis_uint64 i;
 		ovis_uint32 j;
 		
 		/*Vertex v;
 		v.m_pQuantities=new double[numQuantitysets];*/
 		
-		Scene *pScene=new Scene(rRenderer);
+		Scene *pScene=new Scene(&rRenderer);
 		if (pColorscale!=0) pScene->colorscale(*pColorscale);
 		pScene->allocGeometryStreams(vf,numVertices,numTriangles*3);
 		
@@ -53,8 +61,11 @@ namespace video {
 			vtx.position(x,y,z);
 			vtx.normal(1,0,0); // TODO:
 			
+			base::logstream() << "Vtx #" << i << " x " << x << " y " << y << " z " << z;
+			
 			double q;
 			lf >> q;
+			base::logstream() << " q " << q << "\n";
 			q=(q-minQuantity)/(maxQuantity-minQuantity);
 			vtx.texcoord1D(0,((float)q)); // TODO: change to float quantities & store additional quantities
 			if (numQuantitysets>1) { for (j=1;j<numQuantitysets;++j) lf >> q; /* Temporary. Skips additional quantities.*/ }
