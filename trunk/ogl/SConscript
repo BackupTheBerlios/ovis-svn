@@ -28,7 +28,7 @@ ovisgl.cpp
 obj.cxxflags='-DOVIS_EXPORTS'
 obj.uselib=''
 obj.libs='GL ovisbase ovismath ovisvideo'
-obj.includes='.'
+obj.includes=['.','/usr/X11R6/include']
 obj.instdir='/usr/local/lib'
 obj.libpaths=['#build']
 obj.execute()

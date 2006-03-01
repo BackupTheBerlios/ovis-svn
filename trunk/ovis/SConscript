@@ -23,7 +23,7 @@ progobj.source=source+'main.cpp'
 progobj.cxxflags='-DCOMPILE_WITH_SDL_SUPPORT `sdl-config --cflags`'
 progobj.uselib=''
 progobj.libs='ovisbase ovisvideo ovismath ovisopengl'
-progobj.includes=['.']
+progobj.includes=['.','/usr/X11R6/include']
 progobj.instdir='/usr/local/bin'
 progobj.libpaths=['#build']
 progobj.linkflags='`sdl-config --libs` -Wl,-rpath=.'
