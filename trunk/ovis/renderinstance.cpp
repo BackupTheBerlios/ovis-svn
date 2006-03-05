@@ -1,4 +1,4 @@
-//#include <boost/python.hpp>
+#include <boost/thread/thread.hpp>
 #include "../ogl/oglrenderer.hh"
 #include "../video/loadscenefromfile.hh"
 #include "renderinstance.hh"
