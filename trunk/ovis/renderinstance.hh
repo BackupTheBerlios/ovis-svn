@@ -10,10 +10,6 @@
 #include "../video/scene.hh"
 #include "rotationcube.hh"
 
-#ifdef COMPILE_WITH_SDL_SUPPORT
-#include <SDL.h>
-#endif
-
 namespace ovis {
 
 	class Renderinstance
@@ -34,53 +30,61 @@ namespace ovis {
 			UsedRenderer_Raytracer=2
 		};
 
-		void perspectiveViewport(const int w,const int h);
-		
 		void testinitRenderer(
 			const UsedRenderer usedrenderer,
 			const Windowmode windowmode,
 			const int windowwidth,
-			const int windowheight);
+			const int windowheight,
+			const bool interactive);
 
 		void initRenderer(
-			video::Scene *pScene,
 			const UsedRenderer usedrenderer,
 			const Windowmode windowmode,
 			const int windowwidth,
-			const int windowheight);
+			const int windowheight,
+			const bool interactive);
 		
+		void shutdownRenderer();
+		
+		UsedRenderer usedRendererType() const;
+		video::Renderer *usedRenderer();
+		const math::Quaternion& rotation() const;
+		const math::Vector3f& position() const;
+		bool interactive() const;
+
 		void windowmode(const Windowmode windowmode);
-		void scene(video::Scene &rScene);
+		void interactive(const bool mode);
+		void rotation(const math::Quaternion& newrot);
+		void position(const math::Vector3f& newpos);
+		void waitUntilWindowClosed();
+		
+		void fetchSceneFromFile(const char *filename);
+		
+		video::Scene* currentScene();
 
-		void endRenderer();
-
-		void interactiveLoop();
+		void calculateViewmatrix();
+		void perspective(const int w,const int h);
 
 		Renderinstance();
 		~Renderinstance();
-
+				
 	protected:
-
-		void perspective(const int w,const int h);
-
-		void updateScreen();
-		void calculateViewmatrix();
-
-		Windowmode m_Windowmode;
+		void scene(video::Scene &rScene);
+	
 		UsedRenderer m_Usedrenderer;
-#ifdef COMPILE_WITH_SDL_SUPPORT
-		SDL_Surface *m_Screen;
-#endif
-		base::Fpscalc m_FPS;
-		math::Arcball m_Arcball;
-		math::Quaternion m_Rotation,m_OldRotation;
+
+		math::Quaternion m_Rotation;
 		math::Vector3f m_Position;
+		
 		video::Camera m_Camera;
 		video::Colorscale m_Colorscale;
 		video::Renderer *m_pRenderer;
-		RotationCube m_RotCube;
 		video::Scene* m_pScene,*m_pTestscene;
-		int m_Width,m_Height;
+		
+		bool m_Interactive;
+		
+		class Window;
+		Window *m_pWindow;
 	};
 
 }
