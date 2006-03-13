@@ -40,6 +40,9 @@ namespace video {
 
 		/// Tests whether the video device supports features needed by this renderer or not
 		virtual bool supported() const=0;
+		
+		virtual bool needsWindow() const=0;
+		virtual bool allowsFramegrabbing() const=0;
 
 		virtual void drawingmode(const Drawingmode mode)=0;
 		virtual Drawingmode drawingmode() const=0;

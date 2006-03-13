@@ -31,6 +31,9 @@ namespace opengldrv {
 		void drawingmode(const video::Drawingmode mode);
 		video::Drawingmode drawingmode() const;
 
+		bool needsWindow() const;
+		bool allowsFramegrabbing() const;
+
 		void drawPrimitives(const video::PrimitivesType type,
 			video::Vertexstream& vertexstream,const ovis_uint32 firstElement,
 			const ovis_uint32 numElements);

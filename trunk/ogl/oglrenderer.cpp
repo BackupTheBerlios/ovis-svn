@@ -172,6 +172,16 @@ namespace opengldrv {
 	{
 		return m_Drawingmode;
 	}
+	
+	bool OGLRenderer::needsWindow() const
+	{
+		return true;
+	}
+
+	bool OGLRenderer::allowsFramegrabbing() const
+	{
+		return false;
+	}
 
 	void OGLRenderer::drawPrimitives(const video::PrimitivesType type,
 		video::Vertexstream& vertexstream,const ovis_uint32 firstElement,

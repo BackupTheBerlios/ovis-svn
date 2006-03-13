@@ -1,4 +1,5 @@
-/*#include <boost/python.hpp>
+#include <boost/python.hpp>
+#include <boost/noncopyable.hpp>	
 #include "renderinstance.hh"
 
 using namespace boost::python;
@@ -6,13 +7,12 @@ using namespace ovis;
 		
 BOOST_PYTHON_MODULE(libovislib) {
 
-    class_<Renderinstance>("Renderinstance",init<>())
-       // .def("perspectiveViewport", &Renderinstance::perspectiveViewport)
+    class_<Renderinstance,boost::noncopyable>("Renderinstance",init<>())
         .def("testinitRenderer", &Renderinstance::testinitRenderer)
         .def("initRenderer", &Renderinstance::initRenderer)
         .def("shutdownRenderer", &Renderinstance::shutdownRenderer)
         .def("windowmode", &Renderinstance::windowmode)
-        .def("interactive", &Renderinstance::interactive)
+        .def("isInteractive", &Renderinstance::isInteractive)
         .def("fetchSceneFromFile", &Renderinstance::fetchSceneFromFile)
     ;
 
@@ -28,4 +28,3 @@ BOOST_PYTHON_MODULE(libovislib) {
 	    .value("Raytracer",Renderinstance::UsedRenderer_Raytracer)
     ;
 }
-*/

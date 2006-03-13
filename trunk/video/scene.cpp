@@ -121,6 +121,9 @@ namespace video {
 
 	void Scene::renderer(Renderer &rRenderer)
 	{
+		if (m_pIndexstream) delete m_pIndexstream; m_pIndexstream=0;
+		if (m_pVertexstream) delete m_pVertexstream; m_pVertexstream=0;
+
 		m_pRenderer=&rRenderer;
 	}
 	
